@@ -1,0 +1,30 @@
+{
+  "name": "autonoda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "autonoda.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-logger": "0.0.3",
+    "express-session": "^1.14.1",
+    "mongoose": "^4.6.3",
+    "morgan": "^1.7.0",
+    "nconf": "^0.8.4",
+    "nodemailer": "^2.6.4",
+    "session-mongoose": "^0.5.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0",
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "start": "nodemon ./autonoda.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

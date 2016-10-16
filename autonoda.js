@@ -60,7 +60,6 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
 // END static
 
-
 app.disable('x-powered-by');
 
 // custom page 404

@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const app = express();
 
@@ -24,6 +26,67 @@ app.use(require('express-session')({
 }));
 // END cookie - session
 
+
+// BEGIN TEST Passport
+
+const mongoose = require('mongoose');
+
+var UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+});
+
+const User = mongoose.model('user', UserSchema);
+
+const passport       = require('passport');
+const LocalStrategy  = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, function(username, password,done){
+  User.findOne({ username : username},function(err,user){
+    return err
+      ? done(err)
+      : user
+        ? password === user.password
+          ? done(null, user)
+          : done(null, false, { message: 'Incorrect password.' })
+        : done(null, false, { message: 'Incorrect username.' });
+  });
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err,user){
+    err
+      ? done(err)
+      : done(null,user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(function(req, res, next){
+     const a = req.isAuthenticated();
+     console.log(a);
+     next();
+});
+
+// END TEST passport
 
 // START logging
 switch(app.get('env')){
@@ -62,17 +125,17 @@ app.use(express.static(__dirname + '/public'));
 
 app.disable('x-powered-by');
 
-// custom page 404
-app.use(function(req, res){
-    res.status(404);
-    res.render('404');
-});
-
 // custom page 500
 app.use(function(err, req, res, next){
     console.error(err.stack);
     res.status(500);
     res.render('500');
+});
+
+// custom page 404
+app.use(function(req, res){
+    res.status(404);
+    res.render('404');
 });
 
 function startServer() {

@@ -6,10 +6,12 @@ const app = express();
 const config = require('./config');
 const credentials = require('./config/credentials.js');
 
+app.set('ip', config.get("ip"));
 app.set('port', config.get("port"));
 
 
 // BEGIN cookie - session
+
 app.use(require('body-parser').urlencoded({ extended: true }));
 
 const MongoSessionStore = require('session-mongoose')(require('connect'));
@@ -24,85 +26,17 @@ app.use(require('express-session')({
     secret: credentials.cookieSecret,
     store: sessionStore,
 }));
+
 // END cookie - session
 
 
 // BEGIN TEST Passport
-
-const mongoose = require('mongoose');
-
-var UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-});
-
-const User = mongoose.model('user', UserSchema);
-
-const passport       = require('passport');
-const LocalStrategy  = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, function(username, password,done){
-  User.findOne({ username : username},function(err,user){
-    return err
-      ? done(err)
-      : user
-        ? password === user.password
-          ? done(null, user)
-          : done(null, false, { message: 'Incorrect password.' })
-        : done(null, false, { message: 'Incorrect username.' });
-  });
-}));
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err,user){
-    err
-      ? done(err)
-      : done(null,user);
-  });
-});
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-app.use(function(req, res, next){
-     const a = req.isAuthenticated();
-     console.log(a);
-     next();
-});
-
+require('./server/middlewares/passport.js')(app);
 // END TEST passport
 
+
 // START logging
-switch(app.get('env')){
-    case 'development':
-        // сжатое многоцветное журналирование для
-        // разработки
-        app.use(require('morgan')('dev'));
-        break;
-    case 'production':
-        // модуль 'express-logger' поддерживает ежедневное
-        // чередование файлов журналов
-        app.use(require('express-logger')({
-            path: __dirname + '/log/requests.log'
-        }));
-        break;
-}
+require('./server/middlewares/logging.js')(app);
 // END logging
 
 // START templates
@@ -125,6 +59,18 @@ app.use(express.static(__dirname + '/public'));
 
 app.disable('x-powered-by');
 
+// START routes
+require('./server/routes/routes-main.js')(app);
+// END routes
+
+// START Api
+require('./server/routes/routes-api.js')(app);
+// END API
+
+// BEGIN ws
+require('./server/routes/routes-ws.js')(app);
+// END ws
+
 // custom page 500
 app.use(function(err, req, res, next){
     console.error(err.stack);
@@ -138,6 +84,8 @@ app.use(function(req, res){
     res.render('404');
 });
 
+
+
 function startServer() {
     app.listen(app.get('port'), function(){
         console.log( 'Express запущено в режиме ' + app.get('env') +
@@ -145,6 +93,8 @@ function startServer() {
         '; нажмите Ctrl+C для завершения.' );
     });
 }
+
+
 
 if(require.main === module){
     startServer();

@@ -11,12 +11,15 @@ app.set('ip', config.get("ip"));
 app.set('port', config.get("port"));
 
 var https = require('https'); // обычно в начале файла
+//var http2 = require('http2'); // обычно в начале файла
+const spdy = require('spdy');
 
 var options = {
 key: fs.readFileSync(__dirname + '/ssl/autonoda.pem'),
 cert: fs.readFileSync(__dirname + '/ssl/autonoda.crt'),
 };
-let server = https.createServer(options, app);
+//let server = https.createServer(options, app);
+let server = spdy.createServer(options, app);
 
 // BEGIN cookie - session
 

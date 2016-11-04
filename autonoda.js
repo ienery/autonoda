@@ -68,7 +68,7 @@ require('./server/routes/routes-api.js')(app);
 // END API
 
 // BEGIN ws
-require('./server/routes/routes-ws.js')(app);
+//require('./server/routes/routes-ws.js')(app);
 // END ws
 
 // custom page 500
@@ -94,6 +94,43 @@ function startServer() {
     });
 }
 
+var ws = require("nodejs-websocket")
+
+let wsConns = [];
+
+setInterval(()=>{
+    console.log('---');
+    wsConns.map((conn) => {
+        console.log('conn', conn.headers.host);
+        conn.sendText("inServer");
+    });
+    console.log('---');
+}, 5000);
+
+// Scream server example: "hi" -> "HI!!!"
+var server = ws.createServer(function (conn) {
+    console.log("New connection");
+
+    wsConns.push(conn);
+
+    conn.on("text", function (str) {
+        console.log("Received "+str);
+        conn.sendText(str.toUpperCase()+"!!!");
+    });
+
+    conn.on("close", function (code, reason) {
+        console.log("Connection closed");
+    });
+
+    conn.on("open", function (code, reason) {
+        console.log("Connection open");
+    });
+
+    // setInterval(()=>{
+    //         conn.sendText('Привет');
+    // }, 2000);
+
+}).listen(3001);
 
 
 if(require.main === module){

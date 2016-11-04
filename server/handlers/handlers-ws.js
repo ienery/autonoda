@@ -1,5 +1,5 @@
 exports.echo = (ws, req) => {
-    
+
     ws.on('message', function(msg) {
        console.log(msg);
        let message = JSON.parse(msg);
@@ -7,4 +7,9 @@ exports.echo = (ws, req) => {
        let {message:msg2} = message;
        ws.send(msg2);
    });
+
+    // setInterval(() => {
+    //     ws.send('5000');
+    // }, 2000);
+
 };

@@ -1,7 +1,7 @@
 <h1>Home page</h1>
 
 <script>
-    var socket = new WebSocket("ws://{{ip}}:{{port}}/echo");
+    var socket = new WebSocket("ws://{{ip}}:3001/echo");
     console.debug('socket', socket);
 
     socket.onopen = function() {

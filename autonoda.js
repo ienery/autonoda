@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+const fs = require('fs');
 
 const config = require('./config');
 const credentials = require('./config/credentials.js');
@@ -9,6 +10,13 @@ const credentials = require('./config/credentials.js');
 app.set('ip', config.get("ip"));
 app.set('port', config.get("port"));
 
+var https = require('https'); // обычно в начале файла
+
+var options = {
+key: fs.readFileSync(__dirname + '/ssl/autonoda.pem'),
+cert: fs.readFileSync(__dirname + '/ssl/autonoda.crt'),
+};
+let server = https.createServer(options, app);
 
 // BEGIN cookie - session
 
@@ -28,6 +36,11 @@ app.use(require('express-session')({
 }));
 
 // END cookie - session
+
+app.use(function(req, res, next){
+     req.session.test = 'test in session';
+     next();
+});
 
 
 // BEGIN TEST Passport
@@ -68,7 +81,7 @@ require('./server/routes/routes-api.js')(app);
 // END API
 
 // BEGIN ws
-//require('./server/routes/routes-ws.js')(app);
+require('./server/routes/routes-ws.js')(app, server);
 // END ws
 
 // custom page 500
@@ -86,14 +99,22 @@ app.use(function(req, res){
 
 
 
-function startServer() {
-    app.listen(app.get('port'), function(){
-        console.log( 'Express запущено в режиме ' + app.get('env') +
-        ' на http://localhost:' + app.get('port') +
-        '; нажмите Ctrl+C для завершения.' );
-    });
-}
 
+function startServer() {
+    // app.listen(app.get('port'), function(){
+    //     console.log( 'Express запущено в режиме ' + app.get('env') +
+    //     ' на http://localhost:' + app.get('port') +
+    //     '; нажмите Ctrl+C для завершения.' );
+    // });
+
+
+
+server.listen(app.get('port'), function(){
+console.log('Express started in ' + app.get('env') +
+' mode on port ' + app.get('port') + ' using HTTPS.');
+});
+}
+/*
 var ws = require("nodejs-websocket")
 
 let wsConns = [];
@@ -131,7 +152,7 @@ var server = ws.createServer(function (conn) {
     // }, 2000);
 
 }).listen(3001);
-
+*/
 
 if(require.main === module){
     startServer();

@@ -1,8 +1,9 @@
 const handlersWs = require('../handlers/handlers-ws.js');
 
-module.exports = (app) => {
+module.exports = (app, server) => {
 
-    const expressWs = require('express-ws')(app);
+let expressWs = require('express-ws');
+    expressWs = expressWs(app, server);
 
     app.ws('/echo', handlersWs.echo);
 };

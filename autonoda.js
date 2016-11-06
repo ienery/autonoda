@@ -116,11 +116,14 @@ require('./server/routes/main-routes.js')(app);
 require('./server/routes/api-routes.js')(app);
 // END API
 
-// app.use(function(req, res, next){
-//      const a = req.isAuthenticated();
-//      console.log('auth', a);
-//      next();
-// });
+app.use(function(req, res, next){
+     const auth = req.isAuthenticated();
+     console.log('auth', auth);
+     console.log(req.user.email);
+     //console.log(req.user);
+
+     next();
+});
 
 // BEGIN ws
 //require('./server/routes/routes-ws.js')(app, server);

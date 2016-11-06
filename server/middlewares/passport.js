@@ -1,27 +1,12 @@
-const mongoose = require('mongoose');
-
-var UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-});
-
-const User = mongoose.model('user', UserSchema);
-
+const User = require('../models/user');
 
 const passport       = require('passport');
 const LocalStrategy  = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password'
-}, function(username, password,done){
+}, function(username, password, done){
       User.findOne({ username : username},function(err,user){
           return err
             ? done(err)
@@ -37,24 +22,13 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
-
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err,user){
-    err
-      ? done(err)
-      : done(null,user);
+  User.findById(id, function(err, user) {
+    done(err, user);
   });
 });
 
 module.exports = (app) => {
-
     app.use(passport.initialize());
     app.use(passport.session());
-
-
-    app.use(function(req, res, next){
-         const a = req.isAuthenticated();
-         console.log(a);
-         next();
-    });
 };

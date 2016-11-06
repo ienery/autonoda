@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const passport = require('passport');
+const User = require('./server/models/user');
 
 const config = require('./config');
 const credentials = require('./config/credentials.js');
@@ -40,19 +42,44 @@ app.use(require('express-session')({
 
 // END cookie - session
 
-app.use(function(req, res, next){
-     req.session.test = 'test in session';
-     next();
+// app.use(function(req, res, next){
+//      req.session.test = 'test in session';
+//      next();
+// });
+
+// BEGIN mongoose
+const mongoose = require('mongoose');
+    const opts = {
+        server: {
+            socketOptions: { keepAlive: 1 }
+        }
+    };
+
+switch(app.get('env')){
+    case 'development':
+        mongoose.connect(credentials.mongo.development.connectionString, opts);
+        break;
+    case 'production':
+        mongoose.connect(credentials.mongo.production.connectionString, opts);
+        break;
+        default:
+    throw new Error('Неизвестная среда выполнения: ' + app.get('env'));
+}
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log("we're connected!");
 });
 
+// END mongoose
 
 // BEGIN TEST Passport
 require('./server/middlewares/passport.js')(app);
 // END TEST passport
 
-
 // START logging
-require('./server/middlewares/logging.js')(app);
+//require('./server/middlewares/logging.js')(app);
 // END logging
 
 // START templates
@@ -60,9 +87,15 @@ const handlebars = require('express-handlebars');
 
 app.engine('handlebars', handlebars({
             extname:'handlebars',
-            defaultLayout:'main.handlebars',
+            //defaultLayout:'main.handlebars',
+            defaultLayout:'realsite.handlebars',
             layoutsDir: './server/views/layouts',
-            partialsDir:'./server/views/partials'
+            partialsDir:'./server/views/partials',
+            helpers: {
+                static: function(name) {
+                    return require('./server/lib/static.js').map(name);
+                }
+            }
         }));
 
 app.set('views','./server/views/pages');
@@ -76,15 +109,21 @@ app.use(express.static(__dirname + '/public'));
 app.disable('x-powered-by');
 
 // START routes
-require('./server/routes/routes-main.js')(app);
+require('./server/routes/main-routes.js')(app);
 // END routes
 
 // START Api
-require('./server/routes/routes-api.js')(app);
+require('./server/routes/api-routes.js')(app);
 // END API
 
+// app.use(function(req, res, next){
+//      const a = req.isAuthenticated();
+//      console.log('auth', a);
+//      next();
+// });
+
 // BEGIN ws
-require('./server/routes/routes-ws.js')(app, server);
+//require('./server/routes/routes-ws.js')(app, server);
 // END ws
 
 // custom page 500

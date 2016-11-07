@@ -4,6 +4,7 @@
   "description": "",
   "main": "autonoda.js",
   "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-runtime": "^6.18.0",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
@@ -47,7 +48,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "start": "nodemon ./autonoda.js",
+    "start": "nodemon -x node --harmony ./autonoda.js",
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch"
   },

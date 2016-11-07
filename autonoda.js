@@ -34,10 +34,12 @@ const sessionStore = new MongoSessionStore({ url:
 app.use(require('cookie-parser')(credentials.cookieSecret));
 
 app.use(require('express-session')({
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     secret: credentials.cookieSecret,
     store: sessionStore,
+    //cookie: { maxAge: 60000 },
+    rolling: true
 }));
 
 // END cookie - session
@@ -116,17 +118,76 @@ require('./server/routes/main-routes.js')(app);
 require('./server/routes/api-routes.js')(app);
 // END API
 
+
 app.use(function(req, res, next){
+
+    if (!req.ws){
+        req.session.test = 'test2000';
+
+        req.session.save(function(err) {
+          // session saved
+          //console.log('ssave');
+        });
+    }
+    //req.session.test = 'test20';
+    //console.log('test11', req.session.test);
+
+    // req.session.save(function(err) {
+    //   // session saved
+    //   console.log('ssave');
+    //   });
+    next();
+});
+
+// BEGIN async/await
+
+function sleep(ms = 0) {
+  return new Promise(r => setTimeout(r, ms));
+};
+
+(async () => {
+  console.log('a');
+  await sleep(1000);
+  console.log('b');
+})();
+
+// END async/await
+
+app.use(function(req, res, next){
+    //console.log('req.ws', req.ws);
+
+    if (req.ws){
+        console.log('ws');
+
+        req.session.destroy(function(err) {
+          // cannot access session here
+        });
+    }
+    else {
+        console.log('http');
+    }
+
      const auth = req.isAuthenticated();
-     console.log('auth', auth);
-     console.log(req.user.email);
+     console.log('auth1', auth);
+
+    //req.session.test2 = 'test2';
+     //console.log(req.session.test2);
+//console.log('test2', req.session.test2);
+
+     //console.log(req.user.email);
      //console.log(req.user);
 
+        if (auth) {
+            //req.session.email = req.user.email;
+        }
+        else {
+            //delete req.session.email;
+        }
      next();
 });
 
 // BEGIN ws
-//require('./server/routes/routes-ws.js')(app, server);
+require('./server/routes/ws-routes.js')(app, server);
 // END ws
 
 // custom page 500

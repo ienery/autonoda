@@ -1,5 +1,6 @@
 <h1>Home page</h1>
 
+<div class="test-react"></div>
 <script>
     var socket = new WebSocket("wss://localhost:3000/echo");
     console.debug('socket', socket);
@@ -25,7 +26,6 @@
     socket.onerror = function(error) {
         console.debug("Ошибка " + error.message);
     };
-
-
-
 </script>
+
+<script src="/js/main/main-index-bundle.js"></script>

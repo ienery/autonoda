@@ -12,7 +12,10 @@ let wsConns = [];
 // }, 5000);
 
 exports.echo = (ws, req) => {
-    console.log(req.session.test);
+    //console.log('test ws', req.session.test);
+
+    const auth = req.isAuthenticated();
+    console.log('auth ws', auth);
 
     ws.on('message', function(msg) {
        console.log(msg);

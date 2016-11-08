@@ -68,6 +68,7 @@ switch(app.get('env')){
     throw new Error('Неизвестная среда выполнения: ' + app.get('env'));
 }
 
+mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -119,6 +120,8 @@ require('./server/routes/api-routes.js')(app);
 // END API
 
 
+app.use(require('./server/middlewares/test-async'));
+
 app.use(function(req, res, next){
 
     if (!req.ws){
@@ -141,15 +144,15 @@ app.use(function(req, res, next){
 
 // BEGIN async/await
 
-function sleep(ms = 0) {
-  return new Promise(r => setTimeout(r, ms));
-};
-
-(async () => {
-  console.log('a');
-  await sleep(1000);
-  console.log('b');
-})();
+// function sleep(ms = 0) {
+//   return new Promise(r => setTimeout(r, ms));
+// };
+//
+// (async () => {
+//   console.log('a');
+//   await sleep(1000);
+//   console.log('b');
+// })();
 
 // END async/await
 

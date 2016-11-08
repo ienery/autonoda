@@ -1,4 +1,4 @@
-exports.home = (req, res) => {
+exports.home = (req, res, next) => {
     res.render('main/home');
     //res.send('This is not implemented now main');
 };

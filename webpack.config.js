@@ -3,12 +3,14 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const webpack = require('webpack');
 
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
     main: './src/main/main-index.js',
-    styles: './src/styles/main.scss'
+    bootstrap: './src/main/bootstrap.js',
+    styles: './src/styles/main.scss',
   },
   output: {
     path: __dirname + '/public/',
@@ -37,8 +39,12 @@ module.exports = {
         }
     ]
   },
-  postcss: function () {
-        return [require('autoprefixer')];
+  postcss() {
+        return [
+            require('autoprefixer'),
+            require('cssnext'),
+            require('postcss-flexbugs-fixes')
+        ];
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -47,13 +53,32 @@ module.exports = {
   watch: NODE_ENV == 'development',
 
   plugins: [
-    //new webpack.EnvironmentPlugin(['NODE_ENV'])
-    new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV)
-    }),
-    new ExtractTextPlugin('/css/styles.css', {
-      allChunks: true
-    })
+      //new webpack.EnvironmentPlugin(['NODE_ENV'])
+      new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify(NODE_ENV)
+      }),
+      new ExtractTextPlugin('/css/styles.css', {
+        allChunks: true
+      }),
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+        Tether: "tether",
+        "window.Tether": "tether",
+        Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
+        Alert: "exports?Alert!bootstrap/js/dist/alert",
+        Button: "exports?Button!bootstrap/js/dist/button",
+        Carousel: "exports?Carousel!bootstrap/js/dist/carousel",
+        Collapse: "exports?Collapse!bootstrap/js/dist/collapse",
+        Dropdown: "exports?Dropdown!bootstrap/js/dist/dropdown",
+        Modal: "exports?Modal!bootstrap/js/dist/modal",
+        Popover: "exports?Popover!bootstrap/js/dist/popover",
+        Scrollspy: "exports?Scrollspy!bootstrap/js/dist/scrollspy",
+        Tab: "exports?Tab!bootstrap/js/dist/tab",
+        Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
+        Util: "exports?Util!bootstrap/js/dist/util",
+      })
   ]
 };
 

@@ -91,7 +91,7 @@ const handlebars = require('express-handlebars');
 app.engine('handlebars', handlebars({
             extname:'handlebars',
             //defaultLayout:'main.handlebars',
-            defaultLayout:'realsite.handlebars',
+            defaultLayout:'main.handlebars',
             layoutsDir: './server/views/layouts',
             partialsDir:'./server/views/partials',
             helpers: {

@@ -2,30 +2,30 @@
 
 <div class="test-react"></div>
 <script>
-    var socket = new WebSocket("wss://localhost:3000/echo");
-    console.debug('socket', socket);
-
-    socket.onopen = function() {
-        console.debug("Соединение установлено.");
-        socket.send(JSON.stringify({"message":"Привет"}));
-    };
-
-    socket.onclose = function(event) {
-        if (event.wasClean) {
-            console.debug('Соединение закрыто чисто');
-        } else {
-            console.debug('Обрыв соединения'); // например, "убит" процесс сервера
-        }
-        console.debug('Код: ' + event.code + ' причина: ' + event.reason);
-    };
-
-    socket.onmessage = function(event) {
-        console.debug("Получены данные " + event.data);
-    };
-
-    socket.onerror = function(error) {
-        console.debug("Ошибка " + error.message);
-    };
+    // var socket = new WebSocket("wss://localhost:3000/echo");
+    // console.debug('socket', socket);
+    //
+    // socket.onopen = function() {
+    //     console.debug("Соединение установлено.");
+    //     socket.send(JSON.stringify({"message":"Привет"}));
+    // };
+    //
+    // socket.onclose = function(event) {
+    //     if (event.wasClean) {
+    //         console.debug('Соединение закрыто чисто');
+    //     } else {
+    //         console.debug('Обрыв соединения'); // например, "убит" процесс сервера
+    //     }
+    //     console.debug('Код: ' + event.code + ' причина: ' + event.reason);
+    // };
+    //
+    // socket.onmessage = function(event) {
+    //     console.debug("Получены данные " + event.data);
+    // };
+    //
+    // socket.onerror = function(error) {
+    //     console.debug("Ошибка " + error.message);
+    // };
 </script>
 
-<script src="/js/main/main-index-bundle.js"></script>
+<!-- <script src="/js/main/main-index-bundle.js"></script> -->

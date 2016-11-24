@@ -3,17 +3,15 @@
 <head>
     <title>Autonoda</title>
     <!-- Bootstrap -->
-    <!-- <link href="/vendor/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="/vendor/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     {{#if showTests}}
         <link rel="stylesheet" href="/vendor/bower_components/mocha/mocha.css">
     {{/if}}
-    <!-- <link href="/css/styles.css" rel="stylesheet">-->
 
     <script src="/vendor/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <!-- <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
-    <script src="/js/main/bootstrap.js"></script>
+    <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 
 </head>
@@ -23,20 +21,6 @@
         <!-- <div class="test-react"></div> -->
         {{{body}}}
     </div>
-
-    <div class="container">
-  <div class="row">
-    <div class="col-xs flex-xs-top" style="height:100px">
-      One of three columns
-    </div>
-    <div class="col-xs flex-xs-middle">
-      One of three columns
-    </div>
-    <div class="col-xs flex-xs-bottom">
-      One of three columns
-    </div>
-  </div>
-</div>
 
     {{#if showTests}}
         <div id="mocha"></div>

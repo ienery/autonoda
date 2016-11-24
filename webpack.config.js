@@ -3,22 +3,42 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const webpack = require('webpack');
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
-  entry: [
-    './src/main/main-index.js'
-  ],
+  entry: {
+    main: './src/main/main-index.js',
+    styles: './src/styles/main.scss'
+  },
   output: {
-    path: __dirname + '/public/js',
+    path: __dirname + '/public/',
     publicPath: '/',
-    filename: '/main/main-index-bundle.js',
-    library: 'main'
+    filename: '/js/main/[name].js',
+    library: '[name]'
   },
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'babel'
-    }]
+    loaders: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          loader: 'babel'
+        },
+        {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!resolve-url!sass-loader?sourceMap')
+        },
+        {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+        },
+        {
+            test: /\.woff2?$|\.ttf$|\.eot$|\.svg$|\.png|\.jpe?g|\.gif$/,
+            loader: 'file-loader'
+        }
+    ]
+  },
+  postcss: function () {
+        return [require('autoprefixer')];
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -30,6 +50,9 @@ module.exports = {
     //new webpack.EnvironmentPlugin(['NODE_ENV'])
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV)
+    }),
+    new ExtractTextPlugin('/css/styles.css', {
+      allChunks: true
     })
   ]
 };

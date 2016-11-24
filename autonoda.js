@@ -23,8 +23,8 @@ cert: fs.readFileSync(__dirname + '/ssl/autonoda.crt'),
 //let server = https.createServer(options, app);
 let server = spdy.createServer(options, app);
 
+app.use(require('body-parser').json());
 // BEGIN cookie - session
-
 app.use(require('body-parser').urlencoded({ extended: true }));
 
 const MongoSessionStore = require('session-mongoose')(require('connect'));

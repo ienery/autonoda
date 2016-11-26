@@ -100,7 +100,13 @@ app.use(express.static(__dirname + '/public'));
 
 app.disable('x-powered-by');
 
+// BEGIN TEST Passport
+require('./backend/middlewares/passport.js')(app);
+// END TEST passport
 
+// BEGIN routers
+require('./backend/routes/routes')(app);
+// END routers
 
 // custom page 500
 app.use(function(err, req, res, next){

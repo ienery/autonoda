@@ -8,9 +8,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: './src/main/main-index.js',
-    bootstrap: './src/main/bootstrap.js',
-    styles: './src/styles/main.scss',
+    //main: './src/main/main-index.js',
+    //bootstrap: './src/main/bootstrap.js',
+    //styles: './src/styles/main.scss',
   },
   output: {
     path: __dirname + '/public/',
@@ -59,7 +59,8 @@ module.exports = {
       }),
       new ExtractTextPlugin('/css/styles.css', {
         allChunks: true
-      }),
+      })
+      /*
       new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",
@@ -79,6 +80,7 @@ module.exports = {
         Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
         Util: "exports?Util!bootstrap/js/dist/util",
       })
+      */
   ]
 };
 

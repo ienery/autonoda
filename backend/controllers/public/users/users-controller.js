@@ -2,5 +2,5 @@
 //const passport = require('passport');
 
 exports.index = async (req, res, next) => {
-    res.render('users/users');
+    res.render('users/users', { layout: 'api' });
 };

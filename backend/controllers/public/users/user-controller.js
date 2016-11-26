@@ -1,6 +1,8 @@
 const User = require('../../../models/users/user.js');
 const passport = require('passport');
 
+const layout = 'api';
+
 exports.register = async (req, res, next) => {
     let { email, password, password2 } = req.body;
 
@@ -23,9 +25,9 @@ exports.register = async (req, res, next) => {
             }
 
             //console.dir(user);
-            return res.render('users/user/register-after-success');
+            return res.render('users/user/register-after-success', { layout });
         } else {
-            return res.render('users/user/register-after-error');
+            return res.render('users/user/register-after-error', { layout });
         }
 
 
@@ -47,10 +49,10 @@ exports.register = async (req, res, next) => {
 
         });
 
-        return res.render('users/user/register');
+        return res.render('users/user/register', { layout });
     }
 
-    return res.render('users/user/register');
+    return res.render('users/user/register', { layout });
 };
 
 exports.login = (req, res, next) => {
@@ -69,7 +71,7 @@ exports.login = (req, res, next) => {
               if (err) { return next(err); }
               //return res.redirect('/login');
               //console.log('user', user);
-              return res.render('users/user/login-after-success');
+              return res.render('users/user/login-after-success', { layout });
             });
 
           })(req, res, next);
@@ -78,7 +80,7 @@ exports.login = (req, res, next) => {
         //return res.render('users/login');
     }
     else {
-        return res.render('users/user/login');
+        return res.render('users/user/login', { layout });
     }
 };
 

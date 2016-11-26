@@ -1,10 +1,12 @@
-'use strict'
+/**
+autonoda app - future features create 26.11.2016
+*/
+
+const fs = require('fs');
 
 const express = require('express');
 const app = express();
-const fs = require('fs');
-const passport = require('passport');
-const User = require('./server/models/user');
+
 
 const config = require('./config');
 const credentials = require('./config/credentials.js');
@@ -12,18 +14,19 @@ const credentials = require('./config/credentials.js');
 app.set('ip', config.get("ip"));
 app.set('port', config.get("port"));
 
-var https = require('https'); // обычно в начале файла
-//var http2 = require('http2'); // обычно в начале файла
+
+const https = require('https');
 const spdy = require('spdy');
 
-var options = {
-key: fs.readFileSync(__dirname + '/ssl/autonoda.pem'),
-cert: fs.readFileSync(__dirname + '/ssl/autonoda.crt'),
+let options = {
+    key: fs.readFileSync(__dirname + '/ssl/autonoda.pem'),
+    cert: fs.readFileSync(__dirname + '/ssl/autonoda.crt'),
 };
-//let server = https.createServer(options, app);
-let server = spdy.createServer(options, app);
+
+const server = spdy.createServer(options, app);
 
 app.use(require('body-parser').json());
+
 // BEGIN cookie - session
 app.use(require('body-parser').urlencoded({ extended: true }));
 
@@ -43,11 +46,6 @@ app.use(require('express-session')({
 }));
 
 // END cookie - session
-
-// app.use(function(req, res, next){
-//      req.session.test = 'test in session';
-//      next();
-// });
 
 // BEGIN mongoose
 const mongoose = require('mongoose');
@@ -72,18 +70,10 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-    console.log("we're connected!");
+    console.log("mongo connected !");
 });
 
 // END mongoose
-
-// BEGIN TEST Passport
-require('./server/middlewares/passport.js')(app);
-// END TEST passport
-
-// START logging
-//require('./server/middlewares/logging.js')(app);
-// END logging
 
 // START templates
 const handlebars = require('express-handlebars');
@@ -92,106 +82,25 @@ app.engine('handlebars', handlebars({
             extname:'handlebars',
             //defaultLayout:'main.handlebars',
             defaultLayout:'main.handlebars',
-            layoutsDir: './server/views/layouts',
-            partialsDir:'./server/views/partials',
-            helpers: {
-                static: function(name) {
-                    return require('./server/lib/static.js').map(name);
-                }
-            }
+            layoutsDir: './backend/views/layouts',
+            partialsDir:'./backend/views/partials',
+            // helpers: {
+            //     static: function(name) {
+            //         return require('./backend/lib/static.js').map(name);
+            //     }
+            // }
         }));
 
-app.set('views','./server/views/pages');
+app.set('views','./backend/views/pages');
 app.set('view engine', 'handlebars');
 // END templates
 
-// START static
+// static
 app.use(express.static(__dirname + '/public'));
-// END static
 
 app.disable('x-powered-by');
 
-// START routes
-require('./server/routes/main-routes.js')(app);
-// END routes
 
-// START Api
-require('./server/routes/api-routes.js')(app);
-// END API
-
-
-app.use(require('./server/middlewares/test-async'));
-
-app.use(function(req, res, next){
-
-    if (!req.ws){
-        req.session.test = 'test2000';
-
-        req.session.save(function(err) {
-          // session saved
-          //console.log('ssave');
-        });
-    }
-    //req.session.test = 'test20';
-    //console.log('test11', req.session.test);
-
-    // req.session.save(function(err) {
-    //   // session saved
-    //   console.log('ssave');
-    //   });
-    next();
-});
-
-// BEGIN async/await
-
-// function sleep(ms = 0) {
-//   return new Promise(r => setTimeout(r, ms));
-// };
-//
-// (async () => {
-//   console.log('a');
-//   await sleep(1000);
-//   console.log('b');
-// })();
-
-// END async/await
-
-app.use(function(req, res, next){
-    //console.log('req.ws', req.ws);
-
-    if (req.ws){
-        console.log('ws');
-
-        req.session.destroy(function(err) {
-          // cannot access session here
-        });
-    }
-    else {
-        console.log('http');
-    }
-
-     const auth = req.isAuthenticated();
-     console.log('auth1', auth);
-
-    //req.session.test2 = 'test2';
-     //console.log(req.session.test2);
-//console.log('test2', req.session.test2);
-
-     //console.log(req.user.email);
-     //console.log(req.user);
-
-        if (auth) {
-            //req.session.email = req.user.email;
-        }
-        else {
-            //delete req.session.email;
-        }
-     next();
-});
-
-// BEGIN ws
-require('./server/routes/ws-routes.js')(app, server);
-// END ws
 
 // custom page 500
 app.use(function(err, req, res, next){
@@ -206,62 +115,12 @@ app.use(function(req, res){
     res.render('404');
 });
 
-
-
-
 function startServer() {
-    // app.listen(app.get('port'), function(){
-    //     console.log( 'Express запущено в режиме ' + app.get('env') +
-    //     ' на http://localhost:' + app.get('port') +
-    //     '; нажмите Ctrl+C для завершения.' );
-    // });
-
-
-
-server.listen(app.get('port'), function(){
-console.log('Express started in ' + app.get('env') +
-' mode on port ' + app.get('port') + ' using HTTPS.');
-});
+    server.listen(app.get('port'), function(){
+        console.log('Express started in ' + app.get('env') +
+        ' mode on port ' + app.get('port') + ' using HTTPS.');
+    });
 }
-/*
-var ws = require("nodejs-websocket")
-
-let wsConns = [];
-
-setInterval(()=>{
-    console.log('---');
-    wsConns.map((conn) => {
-        console.log('conn', conn.headers.host);
-        conn.sendText("inServer");
-    });
-    console.log('---');
-}, 5000);
-
-// Scream server example: "hi" -> "HI!!!"
-var server = ws.createServer(function (conn) {
-    console.log("New connection");
-
-    wsConns.push(conn);
-
-    conn.on("text", function (str) {
-        console.log("Received "+str);
-        conn.sendText(str.toUpperCase()+"!!!");
-    });
-
-    conn.on("close", function (code, reason) {
-        console.log("Connection closed");
-    });
-
-    conn.on("open", function (code, reason) {
-        console.log("Connection open");
-    });
-
-    // setInterval(()=>{
-    //         conn.sendText('Привет');
-    // }, 2000);
-
-}).listen(3001);
-*/
 
 if(require.main === module){
     startServer();

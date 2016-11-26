@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <title>Autonoda</title>
+
+    {{#if showTests}}
+        <link rel="stylesheet" href="/vendor/bower_components/mocha/mocha.css">
+    {{/if}}
+
+    <!-- BEGIN bootstrap css -->
+    <link rel="stylesheet" href="/vendor/bower_components/tether/dist/css/tether.min.css">
+    <link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- END bootstrap css -->
+
+    <script src="/vendor/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- BEGIN bootstrap js -->
+    <script src="/vendor/bower_components/tether/dist/js/tether.min.js"></script>
+    <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- END bootstrap js -->
+
+
+</head>
+<body>
+    <header>
+        <!--<img src="/img/logo.png" alt="Логотип Autonoda">-->
+    </header>
+    <div class="page-content">
+        {{{body}}}
+    </div>
+
+    {{#if showTests}}
+        <div id="mocha"></div>
+        <script src="/vendor/bower_components/mocha/mocha.js"></script>
+        <script src="/vendor/bower_components/chai/chai.js"></script>
+        <script>
+            mocha.ui('tdd');
+            var assert = chai.assert;
+        </script>
+        <script src="/qa/tests-global.js"></script>
+        {{#if pageTestScript}}
+            <script src="{{pageTestScript}}"></script>
+        {{/if}}
+        <script>mocha.run();</script>
+    {{/if}}
+</body>
+</html>

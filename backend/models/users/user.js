@@ -3,6 +3,8 @@ const crypto = require('crypto');
 
 const credentials = require('../../../config/credentials.js');
 
+const roles = require('./user-roles');
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -11,25 +13,34 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    /*required: true*/
+    required: true
+  },
+  role: {
+    type: String
   }
 });
 
 UserSchema.pre('save', function(next){
+    // BEGIN role
+    if (!this.role) {
+        this.role = roles.USER;
+    }
+    // END role
+
+    // BEGIN password
     if (!this.isModified('password')){
         return next();
     }
-
-    //console.log(this.password);
     const hash = this.encryptPassword(this.password);
-    //console.log('hash', hash);
     this.password = hash;
+    // END password
+
     next();
 });
 
-UserSchema.methods.makeSalt = function(){
-    return Math.round((new Date().valueOf() * Math.random())) + '';
-};
+// UserSchema.methods.makeSalt = function(){
+//     return Math.round((new Date().valueOf() * Math.random())) + '';
+// };
 
 UserSchema.methods.encryptPassword = function(plainText) {
     return crypto.createHmac('sha1', credentials.salt).

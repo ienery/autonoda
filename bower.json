@@ -20,6 +20,7 @@
     "mocha": "^3.1.2",
     "chai": "^3.5.0",
     "axios": "^0.15.2",
-    "bootstrap": "v4.0.0-alpha.5"
+    "bootstrap": "v4.0.0-alpha.5",
+    "handlebars": "^4.0.5"
   }
 }

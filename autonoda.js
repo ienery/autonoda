@@ -78,17 +78,16 @@ db.once('open', function() {
 // START templates
 const handlebars = require('express-handlebars');
 
+const handlebarsNoExpress = require('handlebars');
+const helpers = require('handlebars-form-helpers').register(handlebarsNoExpress);
+
 app.engine('handlebars', handlebars({
             extname:'handlebars',
             //defaultLayout:'main.handlebars',
             defaultLayout:'main.handlebars',
             layoutsDir: './backend/views/layouts',
             partialsDir:'./backend/views/partials',
-            // helpers: {
-            //     static: function(name) {
-            //         return require('./backend/lib/static.js').map(name);
-            //     }
-            // }
+            helpers
         }));
 
 app.set('views','./backend/views/pages');

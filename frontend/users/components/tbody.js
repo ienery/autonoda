@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 
 import Row from './tbody/row';
 
+import { deleteUser } from '../actions/users-actions';
+
 class Tbody extends React.Component {
     render() {
-        //console.debug(this.props.users);
+        //console.debug(this.props);
 
         return(
             <tbody>
@@ -19,6 +21,7 @@ class Tbody extends React.Component {
                             key = {index}
                             user = {item}
                             count = {count}
+                            handlerDeleteUser = {this.props.deleteUser}
                         />
                     );
                 })}
@@ -33,8 +36,17 @@ const mapStateToProps = (state) => {
     return { users };
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteUser(_id) {
+            dispatch(deleteUser(_id));
+        }
+    }
+}
+
 Tbody = connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Tbody);
 
 export default Tbody;

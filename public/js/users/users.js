@@ -25526,14 +25526,36 @@ var users =
 
 /***/ },
 /* 274 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.DELETE_USER = exports.SET_USERS = undefined;
+	
+	var _regenerator = __webpack_require__(2);
+	
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+	
+	var _asyncToGenerator2 = __webpack_require__(6);
+	
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+	
 	exports.setUsers = setUsers;
+	exports.deleteUser = deleteUser;
+	
+	var _usersData = __webpack_require__(278);
+	
+	var _usersData2 = _interopRequireDefault(_usersData);
+	
+	var _usersStatusActions = __webpack_require__(276);
+	
+	var _usersStatuses = __webpack_require__(277);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var SET_USERS = exports.SET_USERS = 'SET_USERS';
 	
 	function setUsers(users) {
@@ -25541,6 +25563,60 @@ var users =
 	        type: SET_USERS,
 	        users: users
 	    };
+	}
+	
+	var DELETE_USER = exports.DELETE_USER = 'DELETE_USER';
+	
+	function deleteUser(_id) {
+	    var _this = this;
+	
+	    return function () {
+	        var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(dispatch) {
+	            var response, results;
+	            return _regenerator2.default.wrap(function _callee$(_context) {
+	                while (1) {
+	                    switch (_context.prev = _context.next) {
+	                        case 0:
+	                            //console.debug('_id', _id);
+	
+	                            dispatch({
+	                                type: DELETE_USER,
+	                                _id: _id
+	                            });
+	
+	                            _context.prev = 1;
+	                            _context.next = 4;
+	                            return _usersData2.default.deleteUser(_id);
+	
+	                        case 4:
+	                            response = _context.sent;
+	                            results = response.results;
+	                            //console.debug('results', results);
+	
+	                            if (results == 'success') {
+	                                dispatch((0, _usersStatusActions.setUsersStatus)(_usersStatuses.FETCH_USERS_REQUEST));
+	                            }
+	                            _context.next = 12;
+	                            break;
+	
+	                        case 9:
+	                            _context.prev = 9;
+	                            _context.t0 = _context['catch'](1);
+	
+	                            console.debug(_context.t0);
+	
+	                        case 12:
+	                        case 'end':
+	                            return _context.stop();
+	                    }
+	                }
+	            }, _callee, _this, [[1, 9]]);
+	        }));
+	
+	        return function (_x) {
+	            return _ref.apply(this, arguments);
+	        };
+	    }();
 	}
 
 /***/ },
@@ -25562,6 +25638,7 @@ var users =
 	
 	
 	    if (action.type == _usersStatusActions.SET_USERS_STATUS) {
+	        //console.debug(action);
 	        var status = action.status;
 	
 	        return status;
@@ -25756,6 +25833,40 @@ var users =
 	            }
 	
 	            return getUsers;
+	        }()
+	    }, {
+	        key: 'deleteUser',
+	        value: function () {
+	            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_id) {
+	                var url, response, results;
+	                return _regenerator2.default.wrap(function _callee2$(_context2) {
+	                    while (1) {
+	                        switch (_context2.prev = _context2.next) {
+	                            case 0:
+	                                url = this.settings.url;
+	
+	                                url += '/' + _id;
+	                                _context2.next = 4;
+	                                return _axios2.default.delete(url);
+	
+	                            case 4:
+	                                response = _context2.sent;
+	                                results = response.data;
+	                                return _context2.abrupt('return', results);
+	
+	                            case 7:
+	                            case 'end':
+	                                return _context2.stop();
+	                        }
+	                    }
+	                }, _callee2, this);
+	            }));
+	
+	            function deleteUser(_x) {
+	                return _ref2.apply(this, arguments);
+	            }
+	
+	            return deleteUser;
 	        }()
 	    }, {
 	        key: 'settings',
@@ -28101,8 +28212,11 @@ var users =
 	                        null,
 	                        'email'
 	                    ),
-	                    _react2.default.createElement('th', null),
-	                    _react2.default.createElement('th', null)
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        'actions'
+	                    )
 	                )
 	            );
 	        }
@@ -28152,6 +28266,8 @@ var users =
 	
 	var _row2 = _interopRequireDefault(_row);
 	
+	var _usersActions = __webpack_require__(274);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Tbody = function (_React$Component) {
@@ -28165,7 +28281,9 @@ var users =
 	    (0, _createClass3.default)(Tbody, [{
 	        key: 'render',
 	        value: function render() {
-	            //console.debug(this.props.users);
+	            var _this2 = this;
+	
+	            //console.debug(this.props);
 	
 	            return _react2.default.createElement(
 	                'tbody',
@@ -28182,7 +28300,8 @@ var users =
 	                    return _react2.default.createElement(_row2.default, {
 	                        key: index,
 	                        user: item,
-	                        count: count
+	                        count: count,
+	                        handlerDeleteUser: _this2.props.deleteUser
 	                    });
 	                })
 	            );
@@ -28197,7 +28316,15 @@ var users =
 	    return { users: users };
 	};
 	
-	Tbody = (0, _reactRedux.connect)(mapStateToProps)(Tbody);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        deleteUser: function deleteUser(_id) {
+	            dispatch((0, _usersActions.deleteUser)(_id));
+	        }
+	    };
+	};
+	
+	Tbody = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Tbody);
 	
 	exports.default = Tbody;
 
@@ -28210,6 +28337,10 @@ var users =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	
+	var _defineProperty2 = __webpack_require__(342);
+	
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 	
 	var _getPrototypeOf = __webpack_require__(306);
 	
@@ -28240,14 +28371,22 @@ var users =
 	var Row = function (_React$Component) {
 	    (0, _inherits3.default)(Row, _React$Component);
 	
-	    function Row() {
+	    function Row(props) {
 	        (0, _classCallCheck3.default)(this, Row);
-	        return (0, _possibleConstructorReturn3.default)(this, (Row.__proto__ || (0, _getPrototypeOf2.default)(Row)).apply(this, arguments));
+	
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (Row.__proto__ || (0, _getPrototypeOf2.default)(Row)).call(this, props));
+	
+	        _this.handleClickEdit = _this.handleClickEdit.bind(_this);
+	        _this.handleClickDelete = _this.handleClickDelete.bind(_this);
+	        return _this;
 	    }
 	
 	    (0, _createClass3.default)(Row, [{
 	        key: 'render',
 	        value: function render() {
+	            var _React$createElement;
+	
+	            //onClick = {this.handleClickEdit}
 	            var _props = this.props;
 	            var count = _props.count;
 	            var _props$user = _props.user;
@@ -28267,9 +28406,95 @@ var users =
 	                    null,
 	                    email
 	                ),
-	                _react2.default.createElement('td', null),
-	                _react2.default.createElement('td', null)
+	                _react2.default.createElement(
+	                    'td',
+	                    null,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: '/users/' + _id
+	                        },
+	                        _react2.default.createElement(
+	                            'button',
+	                            {
+	                                type: 'button', className: 'btn btn-warning btn-row'
+	                            },
+	                            'Edit'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'button',
+	                        {
+	                            type: 'button', className: 'btn btn-danger btn-row', 'data-toggle': 'modal', 'data-target': '#userModal' + _id
+	                        },
+	                        'Delete'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'modal fade', id: 'userModal' + _id, tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel', 'aria-hidden': 'true' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'modal-dialog', role: 'document' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'modal-content' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-header' },
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        (_React$createElement = { className: 'button' }, (0, _defineProperty3.default)(_React$createElement, 'className', 'close'), (0, _defineProperty3.default)(_React$createElement, 'data-dismiss', 'modal'), (0, _defineProperty3.default)(_React$createElement, 'aria-label', 'Close'), _React$createElement),
+	                                        _react2.default.createElement(
+	                                            'span',
+	                                            { 'aria-hidden': 'true' },
+	                                            '\xD7'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'h4',
+	                                        { className: 'modal-title', id: 'myModalLabel' },
+	                                        'A you sure delete user ?'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-body' },
+	                                    this.props.user.email
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-footer' },
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { type: 'button', className: 'btn btn-secondary', 'data-dismiss': 'modal' },
+	                                        'Close'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        {
+	                                            type: 'button', className: 'btn btn-primary',
+	                                            onClick: this.handleClickDelete
+	                                        },
+	                                        'Delete'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
 	            );
+	        }
+	    }, {
+	        key: 'handleClickEdit',
+	        value: function handleClickEdit(event) {
+	            console.debug('handleClickEdit');
+	        }
+	    }, {
+	        key: 'handleClickDelete',
+	        value: function handleClickDelete(event) {
+	            var _id = this.props.user._id;
+	
+	            $('#userModal' + _id).modal('hide');
+	            this.props.handlerDeleteUser(_id);
 	        }
 	    }]);
 	    return Row;
@@ -28305,6 +28530,35 @@ var users =
 	//         };
 	//     };
 	// };
+
+/***/ },
+/* 342 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	
+	var _defineProperty = __webpack_require__(74);
+	
+	var _defineProperty2 = _interopRequireDefault(_defineProperty);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (obj, key, value) {
+	  if (key in obj) {
+	    (0, _defineProperty2.default)(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+	
+	  return obj;
+	};
 
 /***/ }
 /******/ ]);

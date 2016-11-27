@@ -9,8 +9,7 @@ class Thead extends React.Component {
                 <tr>
                     <th>#</th>
                     <th>email</th>
-                    <th></th>
-                    <th></th>
+                    <th>actions</th>
                 </tr>
             </thead>
         );

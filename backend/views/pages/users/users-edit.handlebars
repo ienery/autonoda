@@ -1,0 +1,58 @@
+<!-- <link rel="stylesheet" href="/css/users/users-styles.css">
+
+<div class="users-table"></div>
+
+<script src="/js/users/users.js"></script> -->
+
+<h3>Edit user</h3>
+<form action="/users/{{ userView._id }}" method="POST">
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">_id</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputID" placeholder="_id"
+            readonly
+            value={{ userView._id }}
+            name = '[user][_id]'
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="email" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail" placeholder="email"
+            readonly
+            value={{ userView.email }}
+            name = '[user][email]'
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="role" class="col-sm-2 col-form-label">Role</label>
+        <div class="col-sm-10">
+              <select class="form-control" id="inputRole"
+                name = '[user][role]'
+              >
+                  {{#each listRoles}}
+                    <option value="{{this.value}}" {{#this.selected}}selected="selected"{{/this.selected}}> {{this.text}} </option>
+                  {{/each}}
+              </select>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+          <button class="btn btn-default btn-back">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    $('.btn-back').click(function(e){
+        e.preventDefault();
+        document.location.href='/users/';
+    });
+  </script>

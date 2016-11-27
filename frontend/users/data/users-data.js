@@ -10,7 +10,7 @@ export default class UsersData {
     }
 
     static async getUsers() {
-        const {url} = this.settings;
+        let {url} = this.settings;
         //try {
         let response = await axios.get(url);
         let {data:users} = response;
@@ -18,5 +18,13 @@ export default class UsersData {
         // } catch (err) {
         //     throw err;
         // }
+    }
+
+    static async deleteUser(_id) {
+        let {url} = this.settings;
+        url += `/${_id}`;
+        let response = await axios.delete(url);
+        let {data:results} = response;
+        return results;
     }
 }

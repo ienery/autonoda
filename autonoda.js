@@ -79,7 +79,10 @@ db.once('open', function() {
 const handlebars = require('express-handlebars');
 
 const handlebarsNoExpress = require('handlebars');
-const helpers = require('handlebars-form-helpers').register(handlebarsNoExpress);
+const helpers = require('handlebars-helpers')({
+    handlebars: handlebarsNoExpress
+});
+
 
 app.engine('handlebars', handlebars({
             extname:'handlebars',

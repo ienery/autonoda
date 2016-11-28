@@ -41,19 +41,7 @@ exports.editUser = async (req, res, next) => {
 
             res.locals.userView = userView;
 
-            // add selected
-            let listRoles = roles.UserRoles.list();
-
-            listRoles = listRoles.map((listRole) => {
-                let selected = false;
-                if (listRole.value == userView.role) {
-                    selected = true;
-                }
-
-                return Object.assign(listRole, {selected});
-            });
-
-            res.locals.listRoles = listRoles;
+            res.locals.listRoles = roles.UserRoles.list();
         } catch (err) {
             return next(err);
         }

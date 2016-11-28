@@ -35,7 +35,13 @@
                 name = '[user][role]'
               >
                   {{#each listRoles}}
-                    <option value="{{this.value}}" {{#this.selected}}selected="selected"{{/this.selected}}> {{this.text}} </option>
+                        <option value="{{this.value}}"
+                            {{#eq this.value ../userView.role}}
+                                selected="selected"
+                            {{/eq}}
+                        >
+                            {{this.text}}
+                        </option>
                   {{/each}}
               </select>
 

@@ -11,13 +11,15 @@ export default class MainMenuWidget {
         this.items = [
             {
                 url: '#',
-                text: 'Первая'
+                text: 'Первая',
+                //dropdown: []
             }, {
                 url: '#',
                 text: 'Вторая'
             }, {
                 url: '#',
-                text: 'Третья'
+                text: 'Третья',
+                //dropdown: []
             }
         ];
 

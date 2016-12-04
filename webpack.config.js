@@ -10,8 +10,9 @@ module.exports = {
   entry: {
     //users: './frontend/users/index.js',
     //styles: './frontend/users/styles/styles.scss',
-    mainMenu: './frontend/main-menu/main-menu.js',
-    styles: './frontend/main-menu/styles/styles.scss',
+    //mainMenu: './frontend/main-menu/main-menu.js',
+    //styles: './frontend/main-menu/styles/styles.scss',
+    styles: './frontend/main/styles/common.scss',
     //bootstrap: './src/main/bootstrap.js',
     //styles: './src/styles/main.scss',
   },
@@ -61,7 +62,8 @@ module.exports = {
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(NODE_ENV)
       }),
-      new ExtractTextPlugin('/css/main-menu/main-menu-styles.css', {
+      new ExtractTextPlugin('/css/main/common-styles.css', {
+      //new ExtractTextPlugin('/css/main-menu/main-menu-styles.css', {
         allChunks: true
       })
       /*

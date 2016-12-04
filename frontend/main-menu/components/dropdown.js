@@ -35,16 +35,20 @@ export default class Dropdown extends React.Component {
                 // handlerActivateItem = {this.handlerActivateItem}
                 // handlerDeactivateItem = {this.handlerDeactivateItem}
 
-            return(
-                <Item
-                    key = {index}
-                    index = {index}
-                    active = {active}
-                    {...item}
-                    handlerActivateItem = {this.handlerActivateItem}
-                    handlerDeactivateItem = {this.handlerDeactivateItem}
-                />
-            )
+            if (item.dropdown !== undefined) {
+                return(
+                    <Item
+                        key = {index}
+                        index = {index}
+                        active = {active}
+                        {...item}
+                        handlerActivateItem = {this.handlerActivateItem}
+                        handlerDeactivateItem = {this.handlerDeactivateItem}
+                    />
+                )
+            }
+
+
         });
 
         return items;

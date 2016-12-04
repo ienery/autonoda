@@ -9,10 +9,15 @@ export default class Item extends React.Component {
 
         this.handlerOnMouseEnter = this.handlerOnMouseEnter.bind(this);
         this.handlerOnMouseLeave = this.handlerOnMouseLeave.bind(this);
+        this.handlerClose = this.handlerClose.bind(this);
     }
 
     render() {
-
+        // <div
+        //     className="close"
+        //     onClick = {this.handlerClose}
+        // >
+        // </div>
         return(
             <div
                 className = {this.props.active ? "item active" : "item"}
@@ -20,7 +25,9 @@ export default class Item extends React.Component {
                 onMouseLeave = {this.handlerOnMouseLeave}
             >
                 <div className="item-inner">
-                    {this.props.text}
+                    <div className="columns">
+                        item-columns
+                    </div>
                 </div>
             </div>
         );
@@ -35,5 +42,11 @@ export default class Item extends React.Component {
         const {index} = this.props;
         this.props.handlerDeactivateItem(index);
     }
+
+    handlerClose() {
+        const {index} = this.props;
+        this.props.handlerDeactivateItem(index);
+    }
+
 
 }

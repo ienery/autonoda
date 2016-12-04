@@ -23540,14 +23540,16 @@ var mainMenu =
 	                // handlerActivateItem = {this.handlerActivateItem}
 	                // handlerDeactivateItem = {this.handlerDeactivateItem}
 	
-	                return _react2.default.createElement(_item2.default, (0, _extends3.default)({
-	                    key: index,
-	                    index: index,
-	                    active: active
-	                }, item, {
-	                    handlerActivateItem: _this2.handlerActivateItem,
-	                    handlerDeactivateItem: _this2.handlerDeactivateItem
-	                }));
+	                if (item.dropdown !== undefined) {
+	                    return _react2.default.createElement(_item2.default, (0, _extends3.default)({
+	                        key: index,
+	                        index: index,
+	                        active: active
+	                    }, item, {
+	                        handlerActivateItem: _this2.handlerActivateItem,
+	                        handlerDeactivateItem: _this2.handlerDeactivateItem
+	                    }));
+	                }
 	            });
 	
 	            return items;
@@ -23614,13 +23616,18 @@ var mainMenu =
 	
 	        _this.handlerOnMouseEnter = _this.handlerOnMouseEnter.bind(_this);
 	        _this.handlerOnMouseLeave = _this.handlerOnMouseLeave.bind(_this);
+	        _this.handlerClose = _this.handlerClose.bind(_this);
 	        return _this;
 	    }
 	
 	    (0, _createClass3.default)(Item, [{
 	        key: 'render',
 	        value: function render() {
-	
+	            // <div
+	            //     className="close"
+	            //     onClick = {this.handlerClose}
+	            // >
+	            // </div>
 	            return _react2.default.createElement(
 	                'div',
 	                {
@@ -23631,7 +23638,11 @@ var mainMenu =
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'item-inner' },
-	                    this.props.text
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'columns' },
+	                        'item-columns'
+	                    )
 	                )
 	            );
 	        }
@@ -23645,6 +23656,13 @@ var mainMenu =
 	    }, {
 	        key: 'handlerOnMouseLeave',
 	        value: function handlerOnMouseLeave() {
+	            var index = this.props.index;
+	
+	            this.props.handlerDeactivateItem(index);
+	        }
+	    }, {
+	        key: 'handlerClose',
+	        value: function handlerClose() {
 	            var index = this.props.index;
 	
 	            this.props.handlerDeactivateItem(index);

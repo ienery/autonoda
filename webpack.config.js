@@ -8,15 +8,18 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    users: './frontend/users/index.js',
-    styles: './frontend/users/styles/styles.scss',
+    //users: './frontend/users/index.js',
+    //styles: './frontend/users/styles/styles.scss',
+    mainMenu: './frontend/main-menu/main-menu.js',
+    styles: './frontend/main-menu/styles/styles.scss',
     //bootstrap: './src/main/bootstrap.js',
     //styles: './src/styles/main.scss',
   },
   output: {
     path: __dirname + '/public/',
     publicPath: '/',
-    filename: '/js/users/[name].js',
+    //filename: '/js/users/[name].js',
+    filename: '/js/main-menu/[name].js',
     library: '[name]'
   },
   module: {
@@ -58,7 +61,7 @@ module.exports = {
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(NODE_ENV)
       }),
-      new ExtractTextPlugin('/css/users/users-styles.css', {
+      new ExtractTextPlugin('/css/main-menu/main-menu-styles.css', {
         allChunks: true
       })
       /*

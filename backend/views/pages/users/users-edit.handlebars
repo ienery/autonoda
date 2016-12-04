@@ -5,7 +5,7 @@
 <script src="/js/users/users.js"></script> -->
 
 <h3>Edit user</h3>
-<form action="/users/{{ userView._id }}" method="POST">
+<form action="/admin/users/{{ userView._id }}" method="POST">
     <div class="form-group row">
       <label for="inputPassword3" class="col-sm-2 col-form-label">_id</label>
       <div class="col-sm-10">
@@ -59,6 +59,6 @@
   <script>
     $('.btn-back').click(function(e){
         e.preventDefault();
-        document.location.href='/users/';
+        document.location.href='/admin/users/';
     });
   </script>

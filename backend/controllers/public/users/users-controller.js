@@ -21,8 +21,8 @@ exports.editUser = async (req, res, next) => {
         } catch (err) {
             next(err);
         }
-
-        res.redirect('/users');
+        
+        res.redirect('/admin/users/');
 
     } else {
         try {

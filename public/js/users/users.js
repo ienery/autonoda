@@ -106,7 +106,7 @@ var users =
 	
 	var _storeInit2 = _interopRequireDefault(_storeInit);
 	
-	var _usersData = __webpack_require__(278);
+	var _usersData = __webpack_require__(275);
 	
 	var _usersData2 = _interopRequireDefault(_usersData);
 	
@@ -114,11 +114,11 @@ var users =
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _usersStatusActions = __webpack_require__(276);
+	var _usersStatusActions = __webpack_require__(301);
 	
-	var _usersStatuses = __webpack_require__(277);
+	var _usersStatuses = __webpack_require__(302);
 	
-	var _loggerMiddleware = __webpack_require__(341);
+	var _loggerMiddleware = __webpack_require__(342);
 	
 	var _loggerMiddleware2 = _interopRequireDefault(_loggerMiddleware);
 	
@@ -25486,7 +25486,7 @@ var users =
 	
 	var _usersReducer2 = _interopRequireDefault(_usersReducer);
 	
-	var _usersStatusReducer = __webpack_require__(275);
+	var _usersStatusReducer = __webpack_require__(303);
 	
 	var _usersStatusReducer2 = _interopRequireDefault(_usersStatusReducer);
 	
@@ -25546,13 +25546,13 @@ var users =
 	exports.setUsers = setUsers;
 	exports.deleteUser = deleteUser;
 	
-	var _usersData = __webpack_require__(278);
+	var _usersData = __webpack_require__(275);
 	
 	var _usersData2 = _interopRequireDefault(_usersData);
 	
-	var _usersStatusActions = __webpack_require__(276);
+	var _usersStatusActions = __webpack_require__(301);
 	
-	var _usersStatuses = __webpack_require__(277);
+	var _usersStatuses = __webpack_require__(302);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -25628,150 +25628,6 @@ var users =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.default = usersStatusReducer;
-	
-	var _usersStatusActions = __webpack_require__(276);
-	
-	function usersStatusReducer() {
-	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-	    var action = arguments[1];
-	
-	
-	    if (action.type == _usersStatusActions.SET_USERS_STATUS) {
-	        //console.debug(action);
-	        var status = action.status;
-	
-	        return status;
-	    }
-	
-	    return state;
-	}
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.SET_USERS_STATUS = undefined;
-	
-	var _regenerator = __webpack_require__(2);
-	
-	var _regenerator2 = _interopRequireDefault(_regenerator);
-	
-	var _asyncToGenerator2 = __webpack_require__(6);
-	
-	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-	
-	exports.setUsersStatus = setUsersStatus;
-	
-	var _usersStatuses = __webpack_require__(277);
-	
-	var _usersData = __webpack_require__(278);
-	
-	var _usersData2 = _interopRequireDefault(_usersData);
-	
-	var _usersActions = __webpack_require__(274);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SET_USERS_STATUS = exports.SET_USERS_STATUS = 'SET_USERS_STATUS';
-	
-	function setUsersStatus(status) {
-	    var _this = this;
-	
-	    return function () {
-	        var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(dispatch, getState) {
-	            var users;
-	            return _regenerator2.default.wrap(function _callee$(_context) {
-	                while (1) {
-	                    switch (_context.prev = _context.next) {
-	                        case 0:
-	                            // const state = getState();
-	                            // console.debug('state', state);
-	
-	                            dispatch({
-	                                type: SET_USERS_STATUS,
-	                                status: status
-	                            });
-	
-	                            if (!(status == _usersStatuses.FETCH_USERS_REQUEST)) {
-	                                _context.next = 14;
-	                                break;
-	                            }
-	
-	                            _context.prev = 2;
-	                            _context.next = 5;
-	                            return _usersData2.default.getUsers();
-	
-	                        case 5:
-	                            users = _context.sent;
-	
-	                            dispatch((0, _usersActions.setUsers)(users));
-	
-	                            dispatch({
-	                                type: SET_USERS_STATUS,
-	                                status: _usersStatuses.FETCH_USERS_SUCCESS
-	                            });
-	
-	                            _context.next = 14;
-	                            break;
-	
-	                        case 10:
-	                            _context.prev = 10;
-	                            _context.t0 = _context['catch'](2);
-	
-	                            console.debug(_context.t0);
-	
-	                            dispatch({
-	                                type: SET_USERS_STATUS,
-	                                status: _usersStatuses.FETCH_USERS_FAILURE
-	                            });
-	
-	                        case 14:
-	                        case 'end':
-	                            return _context.stop();
-	                    }
-	                }
-	            }, _callee, _this, [[2, 10]]);
-	        }));
-	
-	        return function (_x, _x2) {
-	            return _ref.apply(this, arguments);
-	        };
-	    }();
-	
-	    // return {
-	    //     type: SET_USERS_STATUS,
-	    //     status
-	    // }
-	}
-
-/***/ },
-/* 277 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var FETCH_USERS_REQUEST = exports.FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST';
-	var FETCH_USERS_FAILURE = exports.FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
-	var FETCH_USERS_SUCCESS = exports.FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
 	
 	var _regenerator = __webpack_require__(2);
 	
@@ -25789,7 +25645,7 @@ var users =
 	
 	var _createClass3 = _interopRequireDefault(_createClass2);
 	
-	var _axios = __webpack_require__(279);
+	var _axios = __webpack_require__(276);
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
@@ -25882,20 +25738,20 @@ var users =
 	exports.default = UsersData;
 
 /***/ },
-/* 279 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(280);
+	module.exports = __webpack_require__(277);
 
 /***/ },
-/* 280 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
-	var bind = __webpack_require__(282);
-	var Axios = __webpack_require__(283);
+	var utils = __webpack_require__(278);
+	var bind = __webpack_require__(279);
+	var Axios = __webpack_require__(280);
 	
 	/**
 	 * Create an instance of Axios
@@ -25928,15 +25784,15 @@ var users =
 	};
 	
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(301);
-	axios.CancelToken = __webpack_require__(302);
-	axios.isCancel = __webpack_require__(298);
+	axios.Cancel = __webpack_require__(298);
+	axios.CancelToken = __webpack_require__(299);
+	axios.isCancel = __webpack_require__(295);
 	
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(303);
+	axios.spread = __webpack_require__(300);
 	
 	module.exports = axios;
 	
@@ -25945,12 +25801,12 @@ var users =
 
 
 /***/ },
-/* 281 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var bind = __webpack_require__(282);
+	var bind = __webpack_require__(279);
 	
 	/*global toString:true*/
 	
@@ -26250,7 +26106,7 @@ var users =
 
 
 /***/ },
-/* 282 */
+/* 279 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26267,17 +26123,17 @@ var users =
 
 
 /***/ },
-/* 283 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var defaults = __webpack_require__(284);
-	var utils = __webpack_require__(281);
-	var InterceptorManager = __webpack_require__(295);
-	var dispatchRequest = __webpack_require__(296);
-	var isAbsoluteURL = __webpack_require__(299);
-	var combineURLs = __webpack_require__(300);
+	var defaults = __webpack_require__(281);
+	var utils = __webpack_require__(278);
+	var InterceptorManager = __webpack_require__(292);
+	var dispatchRequest = __webpack_require__(293);
+	var isAbsoluteURL = __webpack_require__(296);
+	var combineURLs = __webpack_require__(297);
 	
 	/**
 	 * Create a new instance of Axios
@@ -26358,13 +26214,13 @@ var users =
 
 
 /***/ },
-/* 284 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(281);
-	var normalizeHeaderName = __webpack_require__(285);
+	var utils = __webpack_require__(278);
+	var normalizeHeaderName = __webpack_require__(282);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -26381,10 +26237,10 @@ var users =
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(286);
+	    adapter = __webpack_require__(283);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(286);
+	    adapter = __webpack_require__(283);
 	  }
 	  return adapter;
 	}
@@ -26451,12 +26307,12 @@ var users =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 285 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -26469,18 +26325,18 @@ var users =
 
 
 /***/ },
-/* 286 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(281);
-	var settle = __webpack_require__(287);
-	var buildURL = __webpack_require__(290);
-	var parseHeaders = __webpack_require__(291);
-	var isURLSameOrigin = __webpack_require__(292);
-	var createError = __webpack_require__(288);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(293);
+	var utils = __webpack_require__(278);
+	var settle = __webpack_require__(284);
+	var buildURL = __webpack_require__(287);
+	var parseHeaders = __webpack_require__(288);
+	var isURLSameOrigin = __webpack_require__(289);
+	var createError = __webpack_require__(285);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(290);
 	
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -26576,7 +26432,7 @@ var users =
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(294);
+	      var cookies = __webpack_require__(291);
 	
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -26653,12 +26509,12 @@ var users =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 287 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var createError = __webpack_require__(288);
+	var createError = __webpack_require__(285);
 	
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -26684,12 +26540,12 @@ var users =
 
 
 /***/ },
-/* 288 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var enhanceError = __webpack_require__(289);
+	var enhanceError = __webpack_require__(286);
 	
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -26707,7 +26563,7 @@ var users =
 
 
 /***/ },
-/* 289 */
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26732,12 +26588,12 @@ var users =
 
 
 /***/ },
-/* 290 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -26806,12 +26662,12 @@ var users =
 
 
 /***/ },
-/* 291 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	/**
 	 * Parse headers into an object
@@ -26849,12 +26705,12 @@ var users =
 
 
 /***/ },
-/* 292 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -26923,7 +26779,7 @@ var users =
 
 
 /***/ },
-/* 293 */
+/* 290 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26965,12 +26821,12 @@ var users =
 
 
 /***/ },
-/* 294 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -27024,12 +26880,12 @@ var users =
 
 
 /***/ },
-/* 295 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -27082,15 +26938,15 @@ var users =
 
 
 /***/ },
-/* 296 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
-	var transformData = __webpack_require__(297);
-	var isCancel = __webpack_require__(298);
-	var defaults = __webpack_require__(284);
+	var utils = __webpack_require__(278);
+	var transformData = __webpack_require__(294);
+	var isCancel = __webpack_require__(295);
+	var defaults = __webpack_require__(281);
 	
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -27167,12 +27023,12 @@ var users =
 
 
 /***/ },
-/* 297 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(281);
+	var utils = __webpack_require__(278);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -27193,7 +27049,7 @@ var users =
 
 
 /***/ },
-/* 298 */
+/* 295 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27204,7 +27060,7 @@ var users =
 
 
 /***/ },
-/* 299 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27224,7 +27080,7 @@ var users =
 
 
 /***/ },
-/* 300 */
+/* 297 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27242,7 +27098,7 @@ var users =
 
 
 /***/ },
-/* 301 */
+/* 298 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27267,12 +27123,12 @@ var users =
 
 
 /***/ },
-/* 302 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Cancel = __webpack_require__(301);
+	var Cancel = __webpack_require__(298);
 	
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -27330,7 +27186,7 @@ var users =
 
 
 /***/ },
-/* 303 */
+/* 300 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27361,6 +27217,150 @@ var users =
 	  };
 	};
 
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.SET_USERS_STATUS = undefined;
+	
+	var _regenerator = __webpack_require__(2);
+	
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+	
+	var _asyncToGenerator2 = __webpack_require__(6);
+	
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+	
+	exports.setUsersStatus = setUsersStatus;
+	
+	var _usersStatuses = __webpack_require__(302);
+	
+	var _usersData = __webpack_require__(275);
+	
+	var _usersData2 = _interopRequireDefault(_usersData);
+	
+	var _usersActions = __webpack_require__(274);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SET_USERS_STATUS = exports.SET_USERS_STATUS = 'SET_USERS_STATUS';
+	
+	function setUsersStatus(status) {
+	    var _this = this;
+	
+	    return function () {
+	        var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(dispatch, getState) {
+	            var users;
+	            return _regenerator2.default.wrap(function _callee$(_context) {
+	                while (1) {
+	                    switch (_context.prev = _context.next) {
+	                        case 0:
+	                            // const state = getState();
+	                            // console.debug('state', state);
+	
+	                            dispatch({
+	                                type: SET_USERS_STATUS,
+	                                status: status
+	                            });
+	
+	                            if (!(status == _usersStatuses.FETCH_USERS_REQUEST)) {
+	                                _context.next = 14;
+	                                break;
+	                            }
+	
+	                            _context.prev = 2;
+	                            _context.next = 5;
+	                            return _usersData2.default.getUsers();
+	
+	                        case 5:
+	                            users = _context.sent;
+	
+	                            dispatch((0, _usersActions.setUsers)(users));
+	
+	                            dispatch({
+	                                type: SET_USERS_STATUS,
+	                                status: _usersStatuses.FETCH_USERS_SUCCESS
+	                            });
+	
+	                            _context.next = 14;
+	                            break;
+	
+	                        case 10:
+	                            _context.prev = 10;
+	                            _context.t0 = _context['catch'](2);
+	
+	                            console.debug(_context.t0);
+	
+	                            dispatch({
+	                                type: SET_USERS_STATUS,
+	                                status: _usersStatuses.FETCH_USERS_FAILURE
+	                            });
+	
+	                        case 14:
+	                        case 'end':
+	                            return _context.stop();
+	                    }
+	                }
+	            }, _callee, _this, [[2, 10]]);
+	        }));
+	
+	        return function (_x, _x2) {
+	            return _ref.apply(this, arguments);
+	        };
+	    }();
+	
+	    // return {
+	    //     type: SET_USERS_STATUS,
+	    //     status
+	    // }
+	}
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var FETCH_USERS_REQUEST = exports.FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST';
+	var FETCH_USERS_FAILURE = exports.FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
+	var FETCH_USERS_SUCCESS = exports.FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = usersStatusReducer;
+	
+	var _usersStatusActions = __webpack_require__(301);
+	
+	function usersStatusReducer() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	    var action = arguments[1];
+	
+	
+	    if (action.type == _usersStatusActions.SET_USERS_STATUS) {
+	        //console.debug(action);
+	        var status = action.status;
+	
+	        return status;
+	    }
+	
+	    return state;
+	}
 
 /***/ },
 /* 304 */
@@ -28338,7 +28338,7 @@ var users =
 	    value: true
 	});
 	
-	var _defineProperty2 = __webpack_require__(342);
+	var _defineProperty2 = __webpack_require__(341);
 	
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 	
@@ -28411,7 +28411,7 @@ var users =
 	                    null,
 	                    _react2.default.createElement(
 	                        'a',
-	                        { href: '/users/' + _id
+	                        { href: '/admin/users/' + _id
 	                        },
 	                        _react2.default.createElement(
 	                            'button',
@@ -28504,35 +28504,6 @@ var users =
 
 /***/ },
 /* 341 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	exports.default = function (store) {
-	    return function (next) {
-	        return function (action) {
-	            //console.debug(action);
-	            return next(action);
-	        };
-	    };
-	};
-	
-	// ES5 middleware
-	// export default function (store){
-	//     return function (next) {
-	//         return function (action) {
-	//           console.log('action');
-	//           return next(action);
-	//         };
-	//     };
-	// };
-
-/***/ },
-/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28559,6 +28530,35 @@ var users =
 	
 	  return obj;
 	};
+
+/***/ },
+/* 342 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	exports.default = function (store) {
+	    return function (next) {
+	        return function (action) {
+	            //console.debug(action);
+	            return next(action);
+	        };
+	    };
+	};
+	
+	// ES5 middleware
+	// export default function (store){
+	//     return function (next) {
+	//         return function (action) {
+	//           console.log('action');
+	//           return next(action);
+	//         };
+	//     };
+	// };
 
 /***/ }
 /******/ ]);

@@ -18,7 +18,7 @@ export default class Row extends React.Component {
               <th scope="row">{count}</th>
               <td>{email}</td>
               <td>
-                  <a href={`/users/${_id}`}
+                  <a href={`/admin/users/${_id}`}
                      >
                       <button
                           type="button" className="btn btn-warning btn-row"

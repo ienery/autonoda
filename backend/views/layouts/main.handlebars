@@ -3,59 +3,58 @@
 <head>
     <title>Autonoda</title>
 
-    {{#if showTests}}
-        <link rel="stylesheet" href="/vendor/bower_components/mocha/mocha.css">
-    {{/if}}
-
-    <!-- BEGIN bootstrap css -->
-    <link rel="stylesheet" href="/vendor/bower_components/tether/dist/css/tether.min.css">
-    <link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- END bootstrap css -->
+    <link rel="stylesheet" href="/vendor/normalize.css/normalize.css">
 
     <script src="/vendor/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <!-- BEGIN bootstrap js -->
-    <script src="/vendor/bower_components/tether/dist/js/tether.min.js"></script>
-    <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- END bootstrap js -->
-
-    <style>
-        body {
-            padding-top: 5rem;
-        }
-        .starter-template {
-          padding: 3rem 1.5rem;
-          text-align: center;
-        }
-    </style>
+    <!-- BEGIN main-menu -->
+    <link rel="stylesheet" href="/css/main-menu/main-menu-styles.css">
+    <!-- <script src="/js/main-menu/mainMenu.js"></script> -->
+    <!-- END main-menu -->
 
 </head>
 <body>
+    <div class="menu">
 
-    <header>
-        <!--<img src="/img/logo.png" alt="Логотип Autonoda">-->
-    </header>
+        <!-- <div class="navbar">
+            <ul class="main-menu">
+                <li class="active"><a data-item="one" href="#">Первая</a></li>
+                <li><a data-item="two" href="#">Вторая</a></li>
+                <li><a data-item="three" href="#">Третья</a></li>
+            <ul>
+        </div>
 
-    <div class="container">
-        {{{body}}}
+        <div class="navbar-dropdown">
+            <div class="item navbar-dropdown-one">
+                <div class="item-inner">
+                    navbar-advanced-one
+                </div>
+            </div>
+            <div class="item navbar-dropdown-two">
+                <div class="item-inner">
+                    navbar-advanced-two
+                </div>
+            </div>
+            <div class="item navbar-dropdown-three">
+                <div class="item-inner">
+                    navbar-advanced-three
+                </div>
+            </div>
+        </div> -->
+
     </div>
 
+    <script src="/js/main-menu/mainMenu.js"></script>
 
 
+    <div class="wrap-body">
+        <div class="container">
+            {{{body}}}
+        </div>
 
-    {{#if showTests}}
-        <div id="mocha"></div>
-        <script src="/vendor/bower_components/mocha/mocha.js"></script>
-        <script src="/vendor/bower_components/chai/chai.js"></script>
-        <script>
-            mocha.ui('tdd');
-            var assert = chai.assert;
-        </script>
-        <script src="/qa/tests-global.js"></script>
-        {{#if pageTestScript}}
-            <script src="{{pageTestScript}}"></script>
-        {{/if}}
-        <script>mocha.run();</script>
-    {{/if}}
+        <footer>
+            copyright
+        </footer>
+    </div>
 </body>
 </html>

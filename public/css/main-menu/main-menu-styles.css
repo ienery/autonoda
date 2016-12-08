@@ -6,8 +6,31 @@
 }
 
 .menu .navbar {
-  width: 960px;
   margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .menu .navbar {
+    width: 960px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1199px) {
+  .menu .navbar {
+    width: 960px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 759px) {
+  .menu .navbar {
+    width: 500px;
+  }
+}
+
+@media (max-width: 399px) {
+  .menu .navbar {
+    width: 360px;
+  }
 }
 
 .menu .main-menu {

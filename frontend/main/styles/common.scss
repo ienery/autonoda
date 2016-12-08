@@ -1,5 +1,26 @@
 $width-body: 960px;
 
+$width-body-full: $width-body;
+$width-body-medium: 500px;
+$width-body-small: 360px;
+
+
+$width-max-full: 1200px;
+$width-min-full: 760px;
+$width-min-medium: 400px;
+
+// @media (min-width: $width-min-full) and (max-width: $width-max-full) {
+//     width: $width-body-full;
+// }
+//
+// @media (min-width: $width-min-medium) and (max-width: $width-min-full - 1) {
+//     width: $width-body-medium;
+// }
+//
+// @media (max-width: $width-min-medium - 1){
+//     width: $width-body-small;
+// }
+
 // BEGIN common styles
 * {
     box-sizing: border-box;
@@ -49,12 +70,32 @@ $height-fixed-header: 38px;
 }
 
 .main {
-    width:  $width-body;
+    //width:  $width-body;
+
+    @media (min-width: $width-max-full) {
+        width: $width-body-full;
+    }
+
+    @media (min-width: $width-min-full) and (max-width: $width-max-full - 1 ) {
+        width: $width-body-full;
+    }
+
+    @media (min-width: $width-min-medium) and (max-width: $width-min-full - 1) {
+        width: $width-body-medium;
+    }
+
+    @media (max-width: $width-min-medium - 1){
+        width: $width-body-small;
+    }
+
     margin: auto;
     flex-grow: 1;
     background: $background-body;
+    //background: red;
     //padding: 0 20px;
-    height: 1500px;
+    //height: 1500px;
+    display: flex;
+    flex-direction: column;
 }
 
 // footer style
@@ -65,7 +106,24 @@ $height-fixed-header: 38px;
 
 .footer {
     margin: auto;
-    width:  $width-body;
+    //width:  $width-body;
+
+    @media (min-width: $width-max-full) {
+        width: $width-body-full;
+    }
+
+    @media (min-width: $width-min-full) and (max-width: $width-max-full - 1 ) {
+        width: $width-body-full;
+    }
+
+    @media (min-width: $width-min-medium) and (max-width: $width-min-full - 1) {
+        width: $width-body-medium;
+    }
+
+    @media (max-width: $width-min-medium - 1){
+        width: $width-body-small;
+    }
+
     height: $height-fixed-header;
     padding-top: 9px;
 }

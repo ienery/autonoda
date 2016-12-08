@@ -1,0 +1,51 @@
+.main-index {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.main-index .blocks {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border: solid 1px red;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+      flex-flow: row wrap;
+}
+
+.main-index .block {
+  background: yellow;
+  border: solid 1px grey;
+  width: 33.333333%;
+}
+
+@media (min-width: 1200px) {
+  .main-index .block {
+    width: 33.333333%;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 759px) {
+  .main-index .block {
+    width: 50%;
+  }
+}
+
+@media (max-width: 399px) {
+  .main-index .block {
+    width: 100%;
+  }
+}
+
+
+/*# sourceMappingURL=styles.css.map*/

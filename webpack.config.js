@@ -12,7 +12,9 @@ module.exports = {
     //styles: './frontend/users/styles/styles.scss',
     //mainMenu: './frontend/main-menu/main-menu.js',
     //styles: './frontend/main-menu/styles/styles.scss',
-    styles: './frontend/main/styles/common.scss',
+    //styles: './frontend/main/styles/common.scss',
+    //styles: './frontend/main-index/styles/styles.scss',
+    ts: './frontend/main-index/ts/test.tsx'
     //bootstrap: './src/main/bootstrap.js',
     //styles: './src/styles/main.scss',
   },
@@ -20,7 +22,7 @@ module.exports = {
     path: __dirname + '/public/',
     publicPath: '/',
     //filename: '/js/users/[name].js',
-    filename: '/js/main-menu/[name].js',
+    filename: '/js/main-index/[name].js',
     library: '[name]'
   },
   module: {
@@ -29,6 +31,11 @@ module.exports = {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel'
+        },
+        {
+            test: /\.tsx?$|\.ts$/,
+            exclude: /node_modules/,
+            loader: "awesome-typescript-loader"
         },
         {
           test: /\.scss$/,
@@ -52,7 +59,7 @@ module.exports = {
         ];
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', ".ts", ".tsx"]
   },
   devtool: NODE_ENV == 'development' ? "source-map" : null,
   watch: NODE_ENV == 'development',
@@ -62,8 +69,9 @@ module.exports = {
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(NODE_ENV)
       }),
-      new ExtractTextPlugin('/css/main/common-styles.css', {
+      //new ExtractTextPlugin('/css/main/common-styles.css', {
       //new ExtractTextPlugin('/css/main-menu/main-menu-styles.css', {
+      new ExtractTextPlugin('/css/main-index/styles.css', {
         allChunks: true
       })
       /*

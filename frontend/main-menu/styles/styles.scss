@@ -1,5 +1,16 @@
 $width-body: 960px;
 
+$width-body: 960px;
+
+$width-body-full: $width-body;
+$width-body-medium: 500px;
+$width-body-small: 360px;
+
+
+$width-max-full: 1200px;
+$width-min-full: 760px;
+$width-min-medium: 400px;
+
 $menu-color: #1a9f29;
 
 .menu {
@@ -9,7 +20,24 @@ $menu-color: #1a9f29;
     min-height: 38px;
 
     .navbar {
-        width:  $width-body;
+        //width:  $width-body;
+
+        @media (min-width: $width-max-full) {
+            width: $width-body-full;
+        }
+
+        @media (min-width: $width-min-full) and (max-width: $width-max-full - 1 ) {
+            width: $width-body-full;
+        }
+
+        @media (min-width: $width-min-medium) and (max-width: $width-min-full - 1) {
+            width: $width-body-medium;
+        }
+
+        @media (max-width: $width-min-medium - 1){
+            width: $width-body-small;
+        }
+
         margin: 0 auto;
     }
 

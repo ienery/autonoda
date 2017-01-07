@@ -27,36 +27,72 @@ export default class Shell  {
     }
 
     loadModules() {
+        // Promise разрешаются внутри функции processLoadModulePromise
+        // запускаются в конструкторах загрузчиков модулей (new AuthLoader())
 
-        // BEGIN Load Auth Module
-        // const loadAuthModulePromise = this.getLoadModulePromise(new AuthLoader());
+        // BEGIN Process Auth Module
+        // const processAuthModulePromise = this.processLoadModulePromise(new AuthLoader());
         //
-        // loadAuthModulePromise.then(
+        // processAuthModulePromise.then(
         //     res => {
+        //         const {libraryName, moduleName} = res;
         //         //spa['auth'] - webpack library export
-        //         const authModule = new spa['auth'].AuthModule;
-        //         authModule.initModule();
+        //         // const authModule = new spa['auth'].AuthModule;
+        //         // authModule.initModule();
+        //         const module = new spa[libraryName][moduleName];
+        //         module.initModule();
         //     }
         // );
-        // END Load Auth Module
+        // END Process Auth Module
 
-        // BEGIN Load Block Module
-        const loadBlockModulePromise = this.getLoadModulePromise(new BlockLoader());
+        // BEGIN Process Block Module
+        // const processBlockModulePromise = this.processLoadModulePromise(new BlockLoader());
+        //
+        // processBlockModulePromise.then(
+        //     res => {
+        //         const {libraryName, moduleName} = res;
+        //         //spa['block'] - webpack library export
+        //         //const blockModule = new spa['block']['BlockModule'];
+        //         //blockModule.initModule();
+        //
+        //         const module = new spa[libraryName][moduleName];
+        //         module.initModule();
+        //     }
+        // );
+        // END Process Block Module
 
-        loadBlockModulePromise.then(
-            res => {
-                //spa['block'] - webpack library export
-                const blockModule = new spa['block'].BlockModule;
-                blockModule.initModule();
-            }
+        // results process all promises loader modules
+        let processModulesPromises: any[] = [];
+
+        processModulesPromises.push(
+            this.processLoadModulePromise(new AuthLoader())
         );
-        // END Load Block Module
+
+        processModulesPromises.push(
+            this.processLoadModulePromise(new BlockLoader())
+        );
+
+
+        // обработка всех результатов загрузки модулей
+        Promise.all( processModulesPromises )
+          .then(results => {
+              for (let result of results) {
+                  //console.debug('results', result);
+                  const {libraryName, moduleName} = result;
+
+                  // вызов функций инициализии внутри модулей
+                  const module = new spa[libraryName][moduleName];
+                  module.initModule();
+              }
+          });
 
     }
 
 
-    getLoadModulePromise(loader) {
-        return loader.getLoadPromise();
+    processLoadModulePromise(loader) {
+        // promise уже запускается и разрешается
+        // внутри модуля при вызове getLoadPromise
+        return loader.processLoadPromise();
     }
 
 }

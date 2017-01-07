@@ -8,14 +8,20 @@ var BlockLoader = (function () {
         this.$el = $('.wrap-main-index');
         this.configMap = {
             hrefCss: '/css/blockStyle.css',
-            urlScript: '/js/block.js'
+            urlScript: '/js/block.js',
+            libraryName: 'block',
+            moduleName: 'BlockModule'
         };
     }
-    BlockLoader.prototype.getLoadPromise = function () {
+    BlockLoader.prototype.processLoadPromise = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var onAssetJsLoaded = function () {
-                resolve('success load module auth');
+                var _a = _this.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+                resolve({
+                    libraryName: libraryName,
+                    moduleName: moduleName
+                });
             };
             _this.renderLoaderReact(onAssetJsLoaded);
         });

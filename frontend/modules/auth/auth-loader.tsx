@@ -17,8 +17,11 @@ export default class AuthLoader {
     private $el: JQuery;
 
     private configMap: {
-        hrefCss: string,
-        urlScript: string
+        hrefCss:        string,
+        urlScript:      string,
+
+        libraryName:    string,
+        moduleName:     string
     };
 
     constructor() {
@@ -27,17 +30,24 @@ export default class AuthLoader {
 
         this.configMap = {
             hrefCss : '/css/authStyle.css',
-            urlScript: '/js/auth.js'
+            urlScript: '/js/auth.js',
+
+            libraryName :   'auth',
+            moduleName:     'AuthModule'
         };
     }
 
 
 
-    getLoadPromise() {
+    processLoadPromise() {
         return new Promise((resolve, reject) => {
             // callback after loaded script module
             const onAssetJsLoaded = () => {
-                resolve('success load module auth');
+                const {libraryName, moduleName} = this.configMap;
+                resolve({
+                    libraryName,
+                    moduleName
+                });
             };
 
             this.renderLoaderReact(onAssetJsLoaded);

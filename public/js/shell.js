@@ -65,6 +65,7 @@ var spa = spa || {}; spa["shell"] =
 	* Основной класс SPA приложения
 	*/
 	"use strict";
+	var auth_loader_1 = __webpack_require__(2);
 	var block_loader_1 = __webpack_require__(241);
 	var Shell = (function () {
 	    function Shell() {
@@ -80,28 +81,58 @@ var spa = spa || {}; spa["shell"] =
 	        });
 	    };
 	    Shell.prototype.loadModules = function () {
-	        // BEGIN Load Auth Module
-	        // const loadAuthModulePromise = this.getLoadModulePromise(new AuthLoader());
+	        // Promise разрешаются внутри функции processLoadModulePromise
+	        // запускаются в конструкторах загрузчиков модулей (new AuthLoader())
+	        // BEGIN Process Auth Module
+	        // const processAuthModulePromise = this.processLoadModulePromise(new AuthLoader());
 	        //
-	        // loadAuthModulePromise.then(
+	        // processAuthModulePromise.then(
 	        //     res => {
+	        //         const {libraryName, moduleName} = res;
 	        //         //spa['auth'] - webpack library export
-	        //         const authModule = new spa['auth'].AuthModule;
-	        //         authModule.initModule();
+	        //         // const authModule = new spa['auth'].AuthModule;
+	        //         // authModule.initModule();
+	        //         const module = new spa[libraryName][moduleName];
+	        //         module.initModule();
 	        //     }
 	        // );
-	        // END Load Auth Module
-	        // BEGIN Load Block Module
-	        var loadBlockModulePromise = this.getLoadModulePromise(new block_loader_1.default());
-	        loadBlockModulePromise.then(function (res) {
-	            //spa['block'] - webpack library export
-	            var blockModule = new spa['block'].BlockModule;
-	            blockModule.initModule();
+	        // END Process Auth Module
+	        // BEGIN Process Block Module
+	        // const processBlockModulePromise = this.processLoadModulePromise(new BlockLoader());
+	        //
+	        // processBlockModulePromise.then(
+	        //     res => {
+	        //         const {libraryName, moduleName} = res;
+	        //         //spa['block'] - webpack library export
+	        //         //const blockModule = new spa['block']['BlockModule'];
+	        //         //blockModule.initModule();
+	        //
+	        //         const module = new spa[libraryName][moduleName];
+	        //         module.initModule();
+	        //     }
+	        // );
+	        // END Process Block Module
+	        // results process all promises loader modules
+	        var processModulesPromises = [];
+	        processModulesPromises.push(this.processLoadModulePromise(new auth_loader_1.default()));
+	        processModulesPromises.push(this.processLoadModulePromise(new block_loader_1.default()));
+	        // обработка всех результатов загрузки модулей
+	        Promise.all(processModulesPromises)
+	            .then(function (results) {
+	            for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
+	                var result = results_1[_i];
+	                //console.debug('results', result);
+	                var libraryName = result.libraryName, moduleName = result.moduleName;
+	                // вызов функций инициализии внутри модулей
+	                var module_1 = new spa[libraryName][moduleName];
+	                module_1.initModule();
+	            }
 	        });
-	        // END Load Block Module
 	    };
-	    Shell.prototype.getLoadModulePromise = function (loader) {
-	        return loader.getLoadPromise();
+	    Shell.prototype.processLoadModulePromise = function (loader) {
+	        // promise уже запускается и разрешается
+	        // внутри модуля при вызове getLoadPromise
+	        return loader.processLoadPromise();
 	    };
 	    return Shell;
 	}());
@@ -110,7 +141,55 @@ var spa = spa || {}; spa["shell"] =
 
 
 /***/ },
-/* 2 */,
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _promise = __webpack_require__(3);
+	
+	var _promise2 = _interopRequireDefault(_promise);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var React = __webpack_require__(68);
+	var ReactDOM = __webpack_require__(101);
+	var asset_css_file_1 = __webpack_require__(239);
+	var asset_js_file_1 = __webpack_require__(240);
+	var AuthLoader = function () {
+	    function AuthLoader() {
+	        this.$el = $('.auth-root');
+	        this.configMap = {
+	            hrefCss: '/css/authStyle.css',
+	            urlScript: '/js/auth.js',
+	            libraryName: 'auth',
+	            moduleName: 'AuthModule'
+	        };
+	    }
+	    AuthLoader.prototype.processLoadPromise = function () {
+	        var _this = this;
+	        return new _promise2.default(function (resolve, reject) {
+	            var onAssetJsLoaded = function onAssetJsLoaded() {
+	                var _a = _this.configMap,
+	                    libraryName = _a.libraryName,
+	                    moduleName = _a.moduleName;
+	                resolve({
+	                    libraryName: libraryName,
+	                    moduleName: moduleName
+	                });
+	            };
+	            _this.renderLoaderReact(onAssetJsLoaded);
+	        });
+	    };
+	    AuthLoader.prototype.renderLoaderReact = function (onAssetJsLoaded) {
+	        ReactDOM.render(React.createElement("div", null, React.createElement(asset_css_file_1.default, { hrefCss: this.configMap.hrefCss }), React.createElement("div", null, "Auth Loader 2"), React.createElement(asset_js_file_1.default, { urlScript: this.configMap.urlScript, onAssetJsLoaded: onAssetJsLoaded })), this.$el[0]);
+	    };
+	    return AuthLoader;
+	}();
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = AuthLoader;
+
+/***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -23038,14 +23117,22 @@ var spa = spa || {}; spa["shell"] =
 	        this.$el = $('.wrap-main-index');
 	        this.configMap = {
 	            hrefCss: '/css/blockStyle.css',
-	            urlScript: '/js/block.js'
+	            urlScript: '/js/block.js',
+	            libraryName: 'block',
+	            moduleName: 'BlockModule'
 	        };
 	    }
-	    BlockLoader.prototype.getLoadPromise = function () {
+	    BlockLoader.prototype.processLoadPromise = function () {
 	        var _this = this;
 	        return new _promise2.default(function (resolve, reject) {
 	            var onAssetJsLoaded = function onAssetJsLoaded() {
-	                resolve('success load module auth');
+	                var _a = _this.configMap,
+	                    libraryName = _a.libraryName,
+	                    moduleName = _a.moduleName;
+	                resolve({
+	                    libraryName: libraryName,
+	                    moduleName: moduleName
+	                });
 	            };
 	            _this.renderLoaderReact(onAssetJsLoaded);
 	        });

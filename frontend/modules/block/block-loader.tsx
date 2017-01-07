@@ -18,7 +18,10 @@ export default class BlockLoader {
 
     private configMap: {
         hrefCss: string,
-        urlScript: string
+        urlScript: string,
+
+        libraryName: string,
+        moduleName: string
     };
 
     constructor() {
@@ -26,18 +29,26 @@ export default class BlockLoader {
         this.$el = $('.wrap-main-index');
 
         this.configMap = {
-            hrefCss : '/css/blockStyle.css',
-            urlScript: '/js/block.js'
+            hrefCss :       '/css/blockStyle.css',
+            urlScript:      '/js/block.js',
+
+            libraryName :   'block',
+            moduleName:     'BlockModule'
         };
     }
 
 
 
-    getLoadPromise() {
+    processLoadPromise() {
         return new Promise((resolve, reject) => {
+
             // callback after loaded script module
             const onAssetJsLoaded = () => {
-                resolve('success load module auth');
+                const {libraryName, moduleName} = this.configMap;
+                resolve({
+                    libraryName,
+                    moduleName
+                });
             };
 
             this.renderLoaderReact(onAssetJsLoaded);

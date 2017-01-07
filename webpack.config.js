@@ -1,4 +1,3 @@
-'use strict'
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const webpack = require('webpack');
@@ -6,24 +5,22 @@ const webpack = require('webpack');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const point = require('./webpack-partial-config/points/shell');
+
+//const point = require('./webpack-partial-config/points/auth');
+
 module.exports = {
-  entry: {
-    //users: './frontend/users/index.js',
-    //styles: './frontend/users/styles/styles.scss',
-    //mainMenu: './frontend/main-menu/main-menu.js',
-    //styles: './frontend/main-menu/styles/styles.scss',
-    //styles: './frontend/main/styles/common.scss',
-    //styles: './frontend/main-index/styles/styles.scss',
-    ts: './frontend/main-index/ts/test.tsx'
-    //bootstrap: './src/main/bootstrap.js',
-    //styles: './src/styles/main.scss',
-  },
+  // entry: {
+  //     ts: './frontend/main-index/ts/test.tsx'
+  // },
+  entry: point.entry,
   output: {
-    path: __dirname + '/public/',
-    publicPath: '/',
-    //filename: '/js/users/[name].js',
-    filename: '/js/main-index/[name].js',
-    library: '[name]'
+      path: __dirname + '/public/',
+      publicPath: '/',
+      //filename: '/js/main-index/[name].js',
+      filename: point.output.filename,
+      library: ["spa", "[name]"],
+      //library: '[name]'
   },
   module: {
     loaders: [
@@ -69,9 +66,8 @@ module.exports = {
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(NODE_ENV)
       }),
-      //new ExtractTextPlugin('/css/main/common-styles.css', {
-      //new ExtractTextPlugin('/css/main-menu/main-menu-styles.css', {
-      new ExtractTextPlugin('/css/main-index/styles.css', {
+      //new ExtractTextPlugin('/css/main-index/styles.css', {
+      new ExtractTextPlugin(point.outputCss.filename, {
         allChunks: true
       })
       /*

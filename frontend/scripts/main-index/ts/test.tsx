@@ -7,8 +7,7 @@ import * as $ from 'jquery';
 
 interface HelloProps { compiler: string; framework: string; }
 
-const helloProps = { compiler: 'one11', framework: 'two22' };
-
+const helloProps = { compiler: 'one101', framework: 'two110' };
 
 class Hello extends React.Component<HelloProps, undefined> {
     render() {
@@ -24,6 +23,6 @@ ReactDOM.render(
     <Hello
         compiler={helloProps.compiler}
         framework={helloProps.framework}
-        />,
+    />,
     $('.react-typescript')[0]
 );

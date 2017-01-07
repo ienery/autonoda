@@ -1,13 +1,15 @@
 {
     "compilerOptions": {
-         "module": "commonjs",
+        "module": "commonjs",
         "target": "es5",
-        "jsx": "react"
+        "jsx": "react",
+        "allowJs": true
     },
     "include": [
         "./**/*"
     ],
     "exclude": [
+        "public/*",
         "node_modules",
         "**/*.spec.ts"
     ]

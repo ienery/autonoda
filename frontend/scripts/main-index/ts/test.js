@@ -7,7 +7,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var React = require("react");
 var ReactDOM = require("react-dom");
 var $ = require("jquery");
-var helloProps = { compiler: 'one11', framework: 'two22' };
+var helloProps = { compiler: 'one101', framework: 'two110' };
 var Hello = (function (_super) {
     __extends(Hello, _super);
     function Hello() {

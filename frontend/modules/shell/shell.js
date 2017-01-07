@@ -1,5 +1,5 @@
 "use strict";
-var auth_loader_1 = require("../auth/auth-loader");
+var block_loader_1 = require("../block/block-loader");
 var Shell = (function () {
     function Shell() {
     }
@@ -12,10 +12,10 @@ var Shell = (function () {
         });
     };
     Shell.prototype.loadModules = function () {
-        var loadAuthModulePromise = this.getLoadModulePromise(new auth_loader_1.default());
-        loadAuthModulePromise.then(function (res) {
-            var authModule = new spa['auth'].AuthModule;
-            authModule.initModule();
+        var loadBlockModulePromise = this.getLoadModulePromise(new block_loader_1.default());
+        loadBlockModulePromise.then(function (res) {
+            var blockModule = new spa['block'].BlockModule;
+            blockModule.initModule();
         });
     };
     Shell.prototype.getLoadModulePromise = function (loader) {

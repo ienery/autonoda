@@ -69,7 +69,7 @@ $height-fixed-header: 38px;
     margin: 0 auto;
 }
 
-.main {
+.main, .wrap-main-index, .block-root {
     //width:  $width-body;
 
     @media (min-width: $width-max-full) {
@@ -129,3 +129,13 @@ $height-fixed-header: 38px;
 }
 
 // END common styles
+
+// BEGIN modules styles
+
+// BEGIN auth module
+.auth-root {
+    background-color: red;
+}
+// END auth module
+
+// END modules styles

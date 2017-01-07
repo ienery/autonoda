@@ -65,7 +65,7 @@ var spa = spa || {}; spa["shell"] =
 	* Основной класс SPA приложения
 	*/
 	"use strict";
-	var auth_loader_1 = __webpack_require__(2);
+	var block_loader_1 = __webpack_require__(241);
 	var Shell = (function () {
 	    function Shell() {
 	        //this.configModule();
@@ -80,12 +80,25 @@ var spa = spa || {}; spa["shell"] =
 	        });
 	    };
 	    Shell.prototype.loadModules = function () {
-	        var loadAuthModulePromise = this.getLoadModulePromise(new auth_loader_1.default());
-	        loadAuthModulePromise.then(function (res) {
-	            //spa['auth'] - webpack library export
-	            var authModule = new spa['auth'].AuthModule;
-	            authModule.initModule();
+	        // BEGIN Load Auth Module
+	        // const loadAuthModulePromise = this.getLoadModulePromise(new AuthLoader());
+	        //
+	        // loadAuthModulePromise.then(
+	        //     res => {
+	        //         //spa['auth'] - webpack library export
+	        //         const authModule = new spa['auth'].AuthModule;
+	        //         authModule.initModule();
+	        //     }
+	        // );
+	        // END Load Auth Module
+	        // BEGIN Load Block Module
+	        var loadBlockModulePromise = this.getLoadModulePromise(new block_loader_1.default());
+	        loadBlockModulePromise.then(function (res) {
+	            //spa['block'] - webpack library export
+	            var blockModule = new spa['block'].BlockModule;
+	            blockModule.initModule();
 	        });
+	        // END Load Block Module
 	    };
 	    Shell.prototype.getLoadModulePromise = function (loader) {
 	        return loader.getLoadPromise();
@@ -97,47 +110,7 @@ var spa = spa || {}; spa["shell"] =
 
 
 /***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _promise = __webpack_require__(3);
-	
-	var _promise2 = _interopRequireDefault(_promise);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var React = __webpack_require__(68);
-	var ReactDOM = __webpack_require__(101);
-	var asset_css_file_1 = __webpack_require__(239);
-	var asset_js_file_1 = __webpack_require__(240);
-	var AuthLoader = function () {
-	    function AuthLoader() {
-	        this.$el = $('.auth-root');
-	        this.configMap = {
-	            hrefCss: '/css/authStyle.css',
-	            urlScript: '/js/auth.js'
-	        };
-	    }
-	    AuthLoader.prototype.getLoadPromise = function () {
-	        var _this = this;
-	        return new _promise2.default(function (resolve, reject) {
-	            var onAssetJsLoaded = function onAssetJsLoaded() {
-	                resolve('success load module auth');
-	            };
-	            _this.renderLoaderReact(onAssetJsLoaded);
-	        });
-	    };
-	    AuthLoader.prototype.renderLoaderReact = function (onAssetJsLoaded) {
-	        ReactDOM.render(React.createElement("div", null, React.createElement(asset_css_file_1.default, { hrefCss: this.configMap.hrefCss }), React.createElement("div", null, "Auth Loader 2"), React.createElement(asset_js_file_1.default, { urlScript: this.configMap.urlScript, onAssetJsLoaded: onAssetJsLoaded })), this.$el[0]);
-	    };
-	    return AuthLoader;
-	}();
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = AuthLoader;
-
-/***/ },
+/* 2 */,
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -23043,6 +23016,47 @@ var spa = spa || {}; spa["shell"] =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = AssetJsFile;
 
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _promise = __webpack_require__(3);
+	
+	var _promise2 = _interopRequireDefault(_promise);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var React = __webpack_require__(68);
+	var ReactDOM = __webpack_require__(101);
+	var asset_css_file_1 = __webpack_require__(239);
+	var asset_js_file_1 = __webpack_require__(240);
+	var BlockLoader = function () {
+	    function BlockLoader() {
+	        this.$el = $('.wrap-main-index');
+	        this.configMap = {
+	            hrefCss: '/css/blockStyle.css',
+	            urlScript: '/js/block.js'
+	        };
+	    }
+	    BlockLoader.prototype.getLoadPromise = function () {
+	        var _this = this;
+	        return new _promise2.default(function (resolve, reject) {
+	            var onAssetJsLoaded = function onAssetJsLoaded() {
+	                resolve('success load module auth');
+	            };
+	            _this.renderLoaderReact(onAssetJsLoaded);
+	        });
+	    };
+	    BlockLoader.prototype.renderLoaderReact = function (onAssetJsLoaded) {
+	        ReactDOM.render(React.createElement("div", { className: "main-index" }, React.createElement(asset_css_file_1.default, { hrefCss: this.configMap.hrefCss }), React.createElement("div", { className: "blocks" }, React.createElement("div", { className: "block" }, "block 1"), React.createElement("div", { className: "block" }, "block 2"), React.createElement("div", { className: "block" }, "block 3"), React.createElement("div", { className: "block" }, "block 4"), React.createElement("div", { className: "block" }, "block 5"), React.createElement("div", { className: "block" }, "block 6")), React.createElement(asset_js_file_1.default, { urlScript: this.configMap.urlScript, onAssetJsLoaded: onAssetJsLoaded })), this.$el[0]);
+	    };
+	    return BlockLoader;
+	}();
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = BlockLoader;
 
 /***/ }
 /******/ ]);

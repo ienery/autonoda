@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+.wrap-fixed-header {
+  background: #e6e6e6;
+  position: fixed;
+  height: 38px;
+  width: 100%;
+  z-index: 1;
+  margin: 0 auto;
+  border-bottom: solid 1px #ccc;
+}
+
+.fixed-header {
+  width: 960px;
+  margin: 0 auto;
+  padding: 9px 0px;
+}
+
+.wrap-header {
+  margin-top: 38px;
+}
+
+.header {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.main,
+.wrap-main-index,
+.block-root {
+  margin: auto;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  background: #f7f7f7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+@media (min-width: 1200px) {
+  .main,
+  .wrap-main-index,
+  .block-root {
+    width: 960px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1199px) {
+  .main,
+  .wrap-main-index,
+  .block-root {
+    width: 960px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 759px) {
+  .main,
+  .wrap-main-index,
+  .block-root {
+    width: 500px;
+  }
+}
+
+@media (max-width: 399px) {
+  .main,
+  .wrap-main-index,
+  .block-root {
+    width: 360px;
+  }
+}
+
+.wrap-footer {
+  border-top: solid 1px #cccccc;
+  background: #cccccc;
+}
+
+.footer {
+  margin: auto;
+  height: 38px;
+  padding-top: 9px;
+}
+
+@media (min-width: 1200px) {
+  .footer {
+    width: 960px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1199px) {
+  .footer {
+    width: 960px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 759px) {
+  .footer {
+    width: 500px;
+  }
+}
+
+@media (max-width: 399px) {
+  .footer {
+    width: 360px;
+  }
+}
+
+.auth-root {
+  background-color: red;
+}
+
+
+/*# sourceMappingURL=commonStyles.css.map*/

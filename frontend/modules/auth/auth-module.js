@@ -1,9 +1,7 @@
 var AuthModule = (function () {
-    function AuthModule() {
-        console.debug('constructor Auth module');
+    function AuthModule(configMapLoader) {
     }
     AuthModule.prototype.initModule = function () {
-        console.debug('init Auth module');
     };
     return AuthModule;
 }());

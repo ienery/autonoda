@@ -9,10 +9,10 @@ var AuthLoader = (function (_super) {
     __extends(AuthLoader, _super);
     function AuthLoader() {
         var _this = _super.call(this) || this;
-        _this.elParent = $('.wrap-main-index')[0];
         _this.configMap = {
+            elParent: $('.wrap-main-index')[0],
             classEl: 'main-index',
-            classElContent: 'blocks',
+            classElContent: 'block-root',
             hrefCss: '/css/blockStyle.css',
             urlScript: '/js/block.js',
             libraryName: 'block',

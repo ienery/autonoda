@@ -69,6 +69,8 @@ var spa = spa || {}; spa["shell"] =
 	var block_loader_1 = __webpack_require__(2);
 	var Shell = (function () {
 	    function Shell() {
+	        //private loadersMap;
+	        this.modulesMap = {};
 	        //this.configModule();
 	    }
 	    Shell.prototype.configModule = function () {
@@ -84,61 +86,86 @@ var spa = spa || {}; spa["shell"] =
 	        // Promise разрешаются внутри функции processLoadModulePromise
 	        // запускаются в конструкторах загрузчиков модулей (new AuthLoader())
 	        var _this = this;
-	        // BEGIN Process Auth Module
-	        // const processAuthModulePromise = this.processLoadModulePromise(new AuthLoader());
-	        //
-	        // processAuthModulePromise.then(
-	        //     res => {
-	        //         const {libraryName, moduleName} = res;
-	        //         //spa['auth'] - webpack library export
-	        //         // const authModule = new spa['auth'].AuthModule;
-	        //         // authModule.initModule();
-	        //         const module = new spa[libraryName][moduleName];
-	        //         module.initModule();
-	        //     }
-	        // );
-	        // END Process Auth Module
-	        // BEGIN Process Block Module
-	        // const processBlockModulePromise = this.processLoadModulePromise(new BlockLoader());
-	        //
-	        // processBlockModulePromise.then(
-	        //     res => {
-	        //         const {libraryName, moduleName} = res;
-	        //         //spa['block'] - webpack library export
-	        //         //const blockModule = new spa['block']['BlockModule'];
-	        //         //blockModule.initModule();
-	        //
-	        //         const module = new spa[libraryName][moduleName];
-	        //         module.initModule();
-	        //     }
-	        // );
-	        // END Process Block Module
-	        // results process all promises loader modules
-	        var processModulesPromises = [];
-	        processModulesPromises.push(this.processLoadModulePromise(new auth_loader_1.default()));
-	        processModulesPromises.push(this.processLoadModulePromise(new block_loader_1.default()));
-	        // обработка всех результатов загрузки модулей
-	        Promise.all(processModulesPromises)
-	            .then(function (results) {
-	            for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
-	                var result = results_1[_i];
-	                //console.debug('results', result);
-	                var libraryName = result.libraryName, moduleName = result.moduleName;
-	                // вызов функций инициализии внутри модулей
-	                var module_1 = new spa[libraryName][moduleName];
-	                module_1.initModule();
-	            }
-	            _this.testCss();
+	        Promise.resolve('start')
+	            .then(function (res) {
+	            // start load AuthModule
+	            return _this.processLoadModulePromise(new auth_loader_1.default());
+	        })
+	            .then(function (configMapLoader) {
+	            // loaded AuthModule
+	            var _a = configMapLoader.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+	            // libraryName = auth
+	            var authModule = new spa[libraryName][moduleName](configMapLoader);
+	            _this.modulesMap[libraryName] = authModule;
+	            authModule.initModule();
+	        })
+	            .then(function (res) {
+	            // start load BlockModule
+	            return _this.processLoadModulePromise(new block_loader_1.default());
+	        })
+	            .then(function (configMapLoader) {
+	            // loaded BlockModule
+	            var _a = configMapLoader.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+	            // libraryName = block
+	            var blockModule = new spa[libraryName][moduleName](configMapLoader);
+	            _this.modulesMap[libraryName] = blockModule;
+	            // добавить обработчики для взаимодействия с модулем
+	            var callback = function () {
+	                console.debug('callback shell');
+	            };
+	            blockModule.initModule({
+	                callback: callback
+	            });
+	        })
+	            .then(function (res) {
+	            console.debug('after load all modules');
+	            //console.debug(this.modulesMap);
 	        });
+	        // BEGIN all modules array loader
+	        // results process all promises loader modules
+	        // let processModulesPromises: any[] = [];
+	        //
+	        // processModulesPromises.push(
+	        //     this.processLoadModulePromise(new AuthLoader())
+	        // );
+	        //
+	        // processModulesPromises.push(
+	        //     this.processLoadModulePromise(new BlockLoader())
+	        // );
+	        //
+	        // // обработка всех результатов загрузки модулей
+	        // Promise.all( processModulesPromises )
+	        //     .then(results => {
+	        //           for (let configMapLoader of results) {
+	        //               //console.debug('results', result);
+	        //               const {
+	        //                   configMap: {libraryName, moduleName},
+	        //                   elModule,
+	        //                   elContent
+	        //               } = configMapLoader;
+	        //
+	        //               // вызов функций инициализии внутри модулей
+	        //               const module = new spa[libraryName][moduleName](configMapLoader);
+	        //
+	        //               this.modulesMap[libraryName] = module;
+	        //
+	        //               //module.initModule();
+	        //           }
+	        //     })
+	        //     .then( res => {
+	        //         //console.debug('after loaded modules');
+	        //         //console.debug(this.modulesMap);
+	        //         this.afterLoadModules();
+	        //     });
+	        // END all modules array loader
 	    };
 	    Shell.prototype.processLoadModulePromise = function (loader) {
-	        // promise уже запускается и разрешается
-	        // внутри модуля при вызове getLoadPromise
+	        // promise запускается, ждем разрешения
+	        // внутри модуля при вызове processLoadPromise
 	        return loader.processLoadPromise();
 	    };
-	    Shell.prototype.testCss = function () {
-	        // проверка возможностей css
-	        //console.debug(document);
+	    Shell.prototype.afterLoadModules = function () {
+	        //console.debug(this.modulesMap);
 	    };
 	    return Shell;
 	}());
@@ -171,10 +198,10 @@ var spa = spa || {}; spa["shell"] =
 	    __extends(AuthLoader, _super);
 	    function AuthLoader() {
 	        var _this = _super.call(this) || this;
-	        _this.elParent = $('.wrap-main-index')[0];
 	        _this.configMap = {
+	            elParent: $('.wrap-main-index')[0],
 	            classEl: 'main-index',
-	            classElContent: 'blocks',
+	            classElContent: 'block-root',
 	            hrefCss: '/css/blockStyle.css',
 	            urlScript: '/js/block.js',
 	            libraryName: 'block',
@@ -773,12 +800,12 @@ var spa = spa || {}; spa["shell"] =
 	            }).then(function (res) {
 	                return _this.processAddScriptPromise();
 	            }).then(function (res) {
-	                var _configMap = _this.configMap;
-	                var libraryName = _configMap.libraryName;
-	                var moduleName = _configMap.moduleName;
-	                //console.debug(libraryName, moduleName);
-	
-	                return { libraryName: libraryName, moduleName: moduleName };
+	                //const {libraryName, moduleName} = this.configMap;
+	                return {
+	                    configMap: _this.configMap,
+	                    elModule: _this.el,
+	                    elContent: _this.elContent
+	                };
 	            });
 	        }
 	    }, {
@@ -793,7 +820,7 @@ var spa = spa || {}; spa["shell"] =
 	            this.el = el;
 	
 	            // добавить к корневому элементу
-	            return this.elParent.appendChild(el);
+	            return this.configMap.elParent.appendChild(el);
 	        }
 	    }, {
 	        key: 'processAddStylesPromise',
@@ -851,7 +878,10 @@ var spa = spa || {}; spa["shell"] =
 	            var content = document.createElement(tagName);
 	
 	            content.className = this.configMap.classElContent;
-	            content.innerHTML = this.configMap.classElContent;
+	            //content.innerHTML  = this.configMap.classElContent;
+	
+	            // сохранить ссылку на элемент
+	            this.elContent = content;
 	
 	            return this.el.appendChild(content);
 	        }
@@ -1986,8 +2016,8 @@ var spa = spa || {}; spa["shell"] =
 	    __extends(AuthLoader, _super);
 	    function AuthLoader() {
 	        var _this = _super.call(this) || this;
-	        _this.elParent = $('.auth-root')[0];
 	        _this.configMap = {
+	            elParent: $('.auth-root')[0],
 	            classEl: 'auth-container',
 	            classElContent: 'auth-content',
 	            hrefCss: '/css/authStyle.css',

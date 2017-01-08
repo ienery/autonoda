@@ -49,11 +49,11 @@ var spa = spa || {}; spa["auth"] =
 	* Модуль аутентификации пользователя
 	*/
 	var AuthModule = (function () {
-	    function AuthModule() {
-	        console.debug('constructor Auth module');
+	    function AuthModule(configMapLoader) {
+	        //console.debug('constructor Auth module', configMapLoader);
 	    }
 	    AuthModule.prototype.initModule = function () {
-	        console.debug('init Auth module');
+	        //console.debug('init Auth module');
 	    };
 	    return AuthModule;
 	}());

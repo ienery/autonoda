@@ -12,13 +12,16 @@ declare const Promise:any;
 
 export default class AuthLoader extends ModuleLoader {
 
-    // родитель для блока
-    protected elParent: HTMLElement;
-
     // корневой элемент блока
     protected el: HTMLElement;
 
+    // элемент контента блока
+    protected elContent: HTMLElement;
+
     protected configMap: {
+        // родитель для блока
+        elParent: HTMLElement,
+
         // общий класс элемента
         classEl: string,
 
@@ -38,11 +41,12 @@ export default class AuthLoader extends ModuleLoader {
     constructor() {
         super();
 
-        this.elParent = $('.wrap-main-index')[0];
 
         this.configMap = {
+            elParent: $('.wrap-main-index')[0],
+
             classEl: 'main-index',
-            classElContent: 'blocks',
+            classElContent: 'block-root',
 
             hrefCss :       '/css/blockStyle.css',
 
@@ -51,30 +55,4 @@ export default class AuthLoader extends ModuleLoader {
             moduleName:     'BlockModule'
         };
     }
-
-    /*
-    processLoadPromise() {
-        return super['processLoadPromise']();
-    }
-
-    createElement() {
-        return super['createElement']();
-    }
-
-    processAddStylesPromise() {
-        return super['processAddStylesPromise']();
-    }
-
-    addStartHtml() {
-        return super['addStartHtml']();
-    }
-
-    processAddScriptPromise() {
-        return super['processAddScriptPromise']();
-    }
-
-    initScript() {
-        console.debug('initScript');
-    }
-    */
 }

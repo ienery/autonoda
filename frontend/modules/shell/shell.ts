@@ -13,8 +13,12 @@ declare const spa: any;
 declare const document: any;
 
 export default class Shell  {
+
     private jqueryMap;
-    private modulesMap;
+
+    //private loadersMap;
+    private modulesMap = {};
+
 
     constructor() {
         //this.configModule();
@@ -34,75 +38,99 @@ export default class Shell  {
         // Promise разрешаются внутри функции processLoadModulePromise
         // запускаются в конструкторах загрузчиков модулей (new AuthLoader())
 
-        // BEGIN Process Auth Module
-        // const processAuthModulePromise = this.processLoadModulePromise(new AuthLoader());
-        //
-        // processAuthModulePromise.then(
-        //     res => {
-        //         const {libraryName, moduleName} = res;
-        //         //spa['auth'] - webpack library export
-        //         // const authModule = new spa['auth'].AuthModule;
-        //         // authModule.initModule();
-        //         const module = new spa[libraryName][moduleName];
-        //         module.initModule();
-        //     }
-        // );
-        // END Process Auth Module
+        Promise.resolve('start')
+            // BEGIN load AuthModule
+            .then(res => {
+                // start load AuthModule
+                return this.processLoadModulePromise(new AuthLoader());
+            })
+            .then(configMapLoader => {
+                // loaded AuthModule
+                const {configMap:{libraryName, moduleName}} = configMapLoader;
 
-        // BEGIN Process Block Module
-        // const processBlockModulePromise = this.processLoadModulePromise(new BlockLoader());
-        //
-        // processBlockModulePromise.then(
-        //     res => {
-        //         const {libraryName, moduleName} = res;
-        //         //spa['block'] - webpack library export
-        //         //const blockModule = new spa['block']['BlockModule'];
-        //         //blockModule.initModule();
-        //
-        //         const module = new spa[libraryName][moduleName];
-        //         module.initModule();
-        //     }
-        // );
-        // END Process Block Module
+                // libraryName = auth
+                const authModule = new spa[libraryName][moduleName](configMapLoader);
+                this.modulesMap[libraryName] = authModule;
 
+                authModule.initModule();
+            })
+            // END load AuthModule
+
+            // BEGIN load BlockModule
+            .then( res => {
+                // start load BlockModule
+                return this.processLoadModulePromise(new BlockLoader());
+            })
+            .then( configMapLoader => {
+                // loaded BlockModule
+                const {configMap:{libraryName, moduleName}} = configMapLoader;
+                // libraryName = block
+                const blockModule = new spa[libraryName][moduleName](configMapLoader);
+                this.modulesMap[libraryName] = blockModule;
+
+                // добавить обработчики для взаимодействия с модулем
+                const callback = () => {
+                    console.debug('callback shell');
+                };
+
+                blockModule.initModule({
+                    callback
+                });
+            })
+            // END load BlockModule
+            .then( res => {
+                console.debug('after load all modules');
+                //console.debug(this.modulesMap);
+            });
+
+        // BEGIN all modules array loader
         // results process all promises loader modules
-        let processModulesPromises: any[] = [];
+        // let processModulesPromises: any[] = [];
+        //
+        // processModulesPromises.push(
+        //     this.processLoadModulePromise(new AuthLoader())
+        // );
+        //
+        // processModulesPromises.push(
+        //     this.processLoadModulePromise(new BlockLoader())
+        // );
+        //
+        // // обработка всех результатов загрузки модулей
+        // Promise.all( processModulesPromises )
+        //     .then(results => {
+        //           for (let configMapLoader of results) {
+        //               //console.debug('results', result);
+        //               const {
+        //                   configMap: {libraryName, moduleName},
+        //                   elModule,
+        //                   elContent
+        //               } = configMapLoader;
+        //
+        //               // вызов функций инициализии внутри модулей
+        //               const module = new spa[libraryName][moduleName](configMapLoader);
+        //
+        //               this.modulesMap[libraryName] = module;
+        //
+        //               //module.initModule();
+        //           }
+        //     })
+        //     .then( res => {
+        //         //console.debug('after loaded modules');
+        //         //console.debug(this.modulesMap);
+        //         this.afterLoadModules();
+        //     });
 
-        processModulesPromises.push(
-            this.processLoadModulePromise(new AuthLoader())
-        );
-
-        processModulesPromises.push(
-            this.processLoadModulePromise(new BlockLoader())
-        );
-
-
-        // обработка всех результатов загрузки модулей
-        Promise.all( processModulesPromises )
-          .then(results => {
-              for (let result of results) {
-                  //console.debug('results', result);
-                  const {libraryName, moduleName} = result;
-
-                  // вызов функций инициализии внутри модулей
-                  const module = new spa[libraryName][moduleName];
-                  module.initModule();
-              }
-
-              this.testCss();
-          });
+        // END all modules array loader
     }
 
 
     processLoadModulePromise(loader) {
-        // promise уже запускается и разрешается
-        // внутри модуля при вызове getLoadPromise
+        // promise запускается, ждем разрешения
+        // внутри модуля при вызове processLoadPromise
         return loader.processLoadPromise();
     }
 
-    testCss() {
-        // проверка возможностей css
-        //console.debug(document);
+    afterLoadModules() {
+        //console.debug(this.modulesMap);
     }
-
 }

@@ -2,12 +2,12 @@
 * Модуль аутентификации пользователя
 */
 class AuthModule {
-    constructor() {
-        console.debug('constructor Auth module');
+    constructor(configMapLoader) {
+        //console.debug('constructor Auth module', configMapLoader);
     }
 
     initModule() {
-        console.debug('init Auth module');
+        //console.debug('init Auth module');
     }
 }
 

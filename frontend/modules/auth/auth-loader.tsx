@@ -12,13 +12,15 @@ declare const Promise:any;
 
 export default class AuthLoader extends ModuleLoader {
 
-    // родитель для блока
-    protected elParent: HTMLElement;
-
     // корневой элемент блока
     protected el: HTMLElement;
 
+    // элемент контента блока
+    protected elContent: HTMLElement;
+
     protected configMap: {
+        // родитель для блока
+        elParent: HTMLElement,
         // общий класс элемента
         classEl: string,
 
@@ -38,9 +40,11 @@ export default class AuthLoader extends ModuleLoader {
     constructor() {
         super();
 
-        this.elParent = $('.auth-root')[0];
+        //this.elParent = ;
 
         this.configMap = {
+            elParent: $('.auth-root')[0],
+
             classEl: 'auth-container',
             classElContent: 'auth-content',
 

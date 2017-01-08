@@ -42,9 +42,12 @@ export default class ModuleLoader {
                 return this.processAddScriptPromise();
             })
             .then( res => {
-                const {libraryName, moduleName} = this.configMap;
-                //console.debug(libraryName, moduleName);
-                return {libraryName, moduleName};
+                //const {libraryName, moduleName} = this.configMap;
+                return {
+                    configMap : this.configMap,
+                    elModule: this.el,
+                    elContent: this.elContent
+                };
             });
     }
 
@@ -58,7 +61,7 @@ export default class ModuleLoader {
         this.el = el;
 
         // добавить к корневому элементу
-        return this.elParent.appendChild(el);
+        return this.configMap.elParent.appendChild(el);
     }
 
     processAddStylesPromise() {
@@ -107,7 +110,10 @@ export default class ModuleLoader {
         const content = document.createElement(tagName);
 
         content.className = this.configMap.classElContent;
-        content.innerHTML  = this.configMap.classElContent;
+        //content.innerHTML  = this.configMap.classElContent;
+
+        // сохранить ссылку на элемент
+        this.elContent = content;
 
         return this.el.appendChild(content);
     }

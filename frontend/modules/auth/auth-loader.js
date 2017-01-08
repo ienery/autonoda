@@ -9,8 +9,8 @@ var AuthLoader = (function (_super) {
     __extends(AuthLoader, _super);
     function AuthLoader() {
         var _this = _super.call(this) || this;
-        _this.elParent = $('.auth-root')[0];
         _this.configMap = {
+            elParent: $('.auth-root')[0],
             classEl: 'auth-container',
             classElContent: 'auth-content',
             hrefCss: '/css/authStyle.css',

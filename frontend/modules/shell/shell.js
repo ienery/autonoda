@@ -3,6 +3,7 @@ var auth_loader_1 = require("../auth/auth-loader");
 var block_loader_1 = require("../block/block-loader");
 var Shell = (function () {
     function Shell() {
+        this.modulesMap = {};
     }
     Shell.prototype.configModule = function () {
     };
@@ -14,24 +15,38 @@ var Shell = (function () {
     };
     Shell.prototype.loadModules = function () {
         var _this = this;
-        var processModulesPromises = [];
-        processModulesPromises.push(this.processLoadModulePromise(new auth_loader_1.default()));
-        processModulesPromises.push(this.processLoadModulePromise(new block_loader_1.default()));
-        Promise.all(processModulesPromises)
-            .then(function (results) {
-            for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
-                var result = results_1[_i];
-                var libraryName = result.libraryName, moduleName = result.moduleName;
-                var module_1 = new spa[libraryName][moduleName];
-                module_1.initModule();
-            }
-            _this.testCss();
+        Promise.resolve('start')
+            .then(function (res) {
+            return _this.processLoadModulePromise(new auth_loader_1.default());
+        })
+            .then(function (configMapLoader) {
+            var _a = configMapLoader.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+            var authModule = new spa[libraryName][moduleName](configMapLoader);
+            _this.modulesMap[libraryName] = authModule;
+            authModule.initModule();
+        })
+            .then(function (res) {
+            return _this.processLoadModulePromise(new block_loader_1.default());
+        })
+            .then(function (configMapLoader) {
+            var _a = configMapLoader.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+            var blockModule = new spa[libraryName][moduleName](configMapLoader);
+            _this.modulesMap[libraryName] = blockModule;
+            var callback = function () {
+                console.debug('callback shell');
+            };
+            blockModule.initModule({
+                callback: callback
+            });
+        })
+            .then(function (res) {
+            console.debug('after load all modules');
         });
     };
     Shell.prototype.processLoadModulePromise = function (loader) {
         return loader.processLoadPromise();
     };
-    Shell.prototype.testCss = function () {
+    Shell.prototype.afterLoadModules = function () {
     };
     return Shell;
 }());

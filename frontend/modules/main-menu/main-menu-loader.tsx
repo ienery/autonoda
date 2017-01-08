@@ -10,7 +10,7 @@ import ModuleLoader from '../../common/components/module-loader/module-loader';
 // global variable
 declare const Promise:any;
 
-export default class AuthLoader extends ModuleLoader {
+export default class MainMenuLoader extends ModuleLoader {
 
     // корневой элемент блока
     protected el: HTMLElement;
@@ -43,16 +43,16 @@ export default class AuthLoader extends ModuleLoader {
 
 
         this.configMap = {
-            elParent: $('.wrap-main-index')[0],
+            elParent: $('.menu')[0],
 
-            classEl: 'main-index',
-            classElContent: 'main-root',
+            classEl: 'wrap-main-menu',
+            classElContent: 'main-menu-root',
 
-            hrefCss :       '/css/blockStyle.css',
+            hrefCss :       '/css/mainMenuStyle.css',
 
-            urlScript:      '/js/block.js',
-            libraryName :   'block',
-            moduleName:     'BlockModule'
+            urlScript:      '/js/mainMenu.js',
+            libraryName :   'mainMenu',
+            moduleName:     'MainMenuModule'
         };
     }
 }

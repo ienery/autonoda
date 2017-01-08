@@ -48,7 +48,7 @@ body {
 
 .main,
 .wrap-main-index,
-.block-root {
+.main-root {
   margin: auto;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
@@ -66,7 +66,7 @@ body {
 @media (min-width: 1200px) {
   .main,
   .wrap-main-index,
-  .block-root {
+  .main-root {
     width: 960px;
   }
 }
@@ -74,7 +74,7 @@ body {
 @media (min-width: 760px) and (max-width: 1199px) {
   .main,
   .wrap-main-index,
-  .block-root {
+  .main-root {
     width: 960px;
   }
 }
@@ -82,7 +82,7 @@ body {
 @media (min-width: 400px) and (max-width: 759px) {
   .main,
   .wrap-main-index,
-  .block-root {
+  .main-root {
     width: 500px;
   }
 }
@@ -90,7 +90,7 @@ body {
 @media (max-width: 399px) {
   .main,
   .wrap-main-index,
-  .block-root {
+  .main-root {
     width: 360px;
   }
 }

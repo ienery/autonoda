@@ -1,4 +1,5 @@
 "use strict";
+var main_menu_loader_1 = require("../main-menu/main-menu-loader");
 var auth_loader_1 = require("../auth/auth-loader");
 var block_loader_1 = require("../block/block-loader");
 var Shell = (function () {
@@ -16,6 +17,15 @@ var Shell = (function () {
     Shell.prototype.loadModules = function () {
         var _this = this;
         Promise.resolve('start')
+            .then(function (res) {
+            return _this.processLoadModulePromise(new main_menu_loader_1.default());
+        })
+            .then(function (configMapLoader) {
+            var _a = configMapLoader.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
+            var mainMenuModule = new spa[libraryName][moduleName](configMapLoader);
+            _this.modulesMap[libraryName] = mainMenuModule;
+            mainMenuModule.initModule();
+        })
             .then(function (res) {
             return _this.processLoadModulePromise(new auth_loader_1.default());
         })

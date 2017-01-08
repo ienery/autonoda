@@ -5,22 +5,22 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var module_loader_1 = require("../../common/components/module-loader/module-loader");
-var AuthLoader = (function (_super) {
-    __extends(AuthLoader, _super);
-    function AuthLoader() {
+var MainMenuLoader = (function (_super) {
+    __extends(MainMenuLoader, _super);
+    function MainMenuLoader() {
         var _this = _super.call(this) || this;
         _this.configMap = {
-            elParent: $('.wrap-main-index')[0],
-            classEl: 'main-index',
-            classElContent: 'main-root',
-            hrefCss: '/css/blockStyle.css',
-            urlScript: '/js/block.js',
-            libraryName: 'block',
-            moduleName: 'BlockModule'
+            elParent: $('.menu')[0],
+            classEl: 'wrap-main-menu',
+            classElContent: 'main-menu-root',
+            hrefCss: '/css/mainMenuStyle.css',
+            urlScript: '/js/mainMenu.js',
+            libraryName: 'mainMenu',
+            moduleName: 'MainMenuModule'
         };
         return _this;
     }
-    return AuthLoader;
+    return MainMenuLoader;
 }(module_loader_1.default));
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = AuthLoader;
+exports.default = MainMenuLoader;

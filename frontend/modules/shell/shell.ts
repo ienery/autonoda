@@ -2,6 +2,7 @@
 * Основной класс SPA приложения
 */
 
+import MainMenuLoader from '../main-menu/main-menu-loader';
 import AuthLoader from '../auth/auth-loader';
 import BlockLoader from '../block/block-loader';
 
@@ -39,6 +40,24 @@ export default class Shell  {
         // запускаются в конструкторах загрузчиков модулей (new AuthLoader())
 
         Promise.resolve('start')
+
+            // BEGIN load MainMenuModule
+            .then(res => {
+                // start load AuthModule
+                return this.processLoadModulePromise(new MainMenuLoader());
+            })
+            .then(configMapLoader => {
+                // loaded AuthModule
+                const {configMap:{libraryName, moduleName}} = configMapLoader;
+
+                // libraryName = mainMenu
+                const mainMenuModule = new spa[libraryName][moduleName](configMapLoader);
+                this.modulesMap[libraryName] = mainMenuModule;
+
+                mainMenuModule.initModule();
+            })
+            // END load MainMenuModule
+            
             // BEGIN load AuthModule
             .then(res => {
                 // start load AuthModule

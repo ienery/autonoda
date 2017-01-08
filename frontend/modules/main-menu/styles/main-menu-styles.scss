@@ -1,0 +1,122 @@
+$width-body: 960px;
+
+$width-body: 960px;
+
+$width-body-full: $width-body;
+$width-body-medium: 500px;
+$width-body-small: 360px;
+
+
+$width-max-full: 1200px;
+$width-min-full: 760px;
+$width-min-medium: 400px;
+
+$menu-color: #1a9f29;
+
+.menu {
+    width: 100%;
+    background: $menu-color;
+    position: relative;
+    min-height: 38px;
+
+    .navbar {
+        //width:  $width-body;
+
+        @media (min-width: $width-max-full) {
+            width: $width-body-full;
+        }
+
+        @media (min-width: $width-min-full) and (max-width: $width-max-full - 1 ) {
+            width: $width-body-full;
+        }
+
+        @media (min-width: $width-min-medium) and (max-width: $width-min-full - 1) {
+            width: $width-body-medium;
+        }
+
+        @media (max-width: $width-min-medium - 1){
+            width: $width-body-small;
+        }
+
+        margin: 0 auto;
+    }
+
+    .main-menu {
+        background: $menu-color;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+
+    .main-menu > li {
+        border-left: solid 1px #91eb9c;
+    }
+
+    .main-menu li:first-child  {
+        border-left: none;
+        //border-radius: 10px;
+    }
+
+    .main-menu a {
+        color: #fff;
+        display: inline-block;
+        padding: 10px 30px;
+        text-decoration: none;
+        text-align: center;
+    }
+
+
+    .main-menu .active {
+        background: #fff;
+        a {
+            color: $menu-color;
+        }
+    }
+
+    .navbar-dropdown {
+        width:  $width-body+2px;
+        margin: 0 auto;
+        position: relative;
+
+        .item {
+            position: absolute;
+            z-index: 1;
+            height: 150px;
+            //background: rgba(211, 205, 242, 1);
+            background: #fff;
+            //display: none;
+            display: block;
+            width: 100%;
+            border: solid 1px $menu-color;
+            border-top: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .item-inner {
+            display: flex;
+
+            .columns {
+                background: yellow;
+            }
+
+            .close {
+                background-image: url('/img/close.png');
+                width: 19px;
+                height: 19px;
+                background-position: center center;
+                margin: 10px;
+                cursor: pointer;
+            }
+        }
+
+    }
+
+}
+
+.menu-after {
+    height: 2px;
+    border-top: solid 1px $menu-color;
+}

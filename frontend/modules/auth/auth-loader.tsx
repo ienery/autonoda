@@ -5,30 +5,45 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-
-import AssetCssFile from '../../common/components/assets/asset-css-file';
-import AssetJsFile from '../../common/components/assets/asset-js-file';
-
+import ModuleLoader from '../../common/components/module-loader/module-loader';
 
 // global variable
 declare const Promise:any;
 
-export default class AuthLoader {
-    private $el: JQuery;
+export default class AuthLoader extends ModuleLoader {
 
-    private configMap: {
-        hrefCss:        string,
-        urlScript:      string,
+    // родитель для блока
+    protected elParent: HTMLElement;
 
-        libraryName:    string,
-        moduleName:     string
+    // корневой элемент блока
+    protected el: HTMLElement;
+
+    protected configMap: {
+        // общий класс элемента
+        classEl: string,
+
+        // класс элемента с "полезной" разметкой
+        classElContent: string,
+
+        // файл стилей блока
+        hrefCss: string,
+
+        // файл скрипта блока
+        urlScript: string,
+        // библиотека/модуль внктри скрипта блока
+        libraryName: string,
+        moduleName: string
     };
 
     constructor() {
-        //console.debug('auth');
-        this.$el = $('.auth-root');
+        super();
+
+        this.elParent = $('.auth-root')[0];
 
         this.configMap = {
+            classEl: 'auth-container',
+            classElContent: 'auth-content',
+
             hrefCss : '/css/authStyle.css',
             urlScript: '/js/auth.js',
 
@@ -36,42 +51,4 @@ export default class AuthLoader {
             moduleName:     'AuthModule'
         };
     }
-
-
-
-    processLoadPromise() {
-        return new Promise((resolve, reject) => {
-            // callback after loaded script module
-            const onAssetJsLoaded = () => {
-                const {libraryName, moduleName} = this.configMap;
-                resolve({
-                    libraryName,
-                    moduleName
-                });
-            };
-
-            this.renderLoaderReact(onAssetJsLoaded);
-        });
-    }
-
-    renderLoaderReact(onAssetJsLoaded) {
-
-        ReactDOM.render(
-            <div>
-                <AssetCssFile
-                    hrefCss = {this.configMap.hrefCss}
-                />
-                <div>Auth Loader 2</div>
-                <AssetJsFile
-                    urlScript = {this.configMap.urlScript}
-                    onAssetJsLoaded = {onAssetJsLoaded}
-                />
-            </div>,
-            this.$el[0]
-        );
-    }
-
-    // onAssetJsLoaded() {
-    //     spa['auth'].fnAuth();
-    // }
 }

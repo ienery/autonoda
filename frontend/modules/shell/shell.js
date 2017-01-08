@@ -13,6 +13,7 @@ var Shell = (function () {
         });
     };
     Shell.prototype.loadModules = function () {
+        var _this = this;
         var processModulesPromises = [];
         processModulesPromises.push(this.processLoadModulePromise(new auth_loader_1.default()));
         processModulesPromises.push(this.processLoadModulePromise(new block_loader_1.default()));
@@ -24,10 +25,13 @@ var Shell = (function () {
                 var module_1 = new spa[libraryName][moduleName];
                 module_1.initModule();
             }
+            _this.testCss();
         });
     };
     Shell.prototype.processLoadModulePromise = function (loader) {
         return loader.processLoadPromise();
+    };
+    Shell.prototype.testCss = function () {
     };
     return Shell;
 }());

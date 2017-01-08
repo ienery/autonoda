@@ -1,38 +1,26 @@
 "use strict";
-var React = require("react");
-var ReactDOM = require("react-dom");
-var asset_css_file_1 = require("../../common/components/assets/asset-css-file");
-var asset_js_file_1 = require("../../common/components/assets/asset-js-file");
-var AuthLoader = (function () {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var module_loader_1 = require("../../common/components/module-loader/module-loader");
+var AuthLoader = (function (_super) {
+    __extends(AuthLoader, _super);
     function AuthLoader() {
-        this.$el = $('.auth-root');
-        this.configMap = {
+        var _this = _super.call(this) || this;
+        _this.elParent = $('.auth-root')[0];
+        _this.configMap = {
+            classEl: 'auth-container',
+            classElContent: 'auth-content',
             hrefCss: '/css/authStyle.css',
             urlScript: '/js/auth.js',
             libraryName: 'auth',
             moduleName: 'AuthModule'
         };
+        return _this;
     }
-    AuthLoader.prototype.processLoadPromise = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var onAssetJsLoaded = function () {
-                var _a = _this.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
-                resolve({
-                    libraryName: libraryName,
-                    moduleName: moduleName
-                });
-            };
-            _this.renderLoaderReact(onAssetJsLoaded);
-        });
-    };
-    AuthLoader.prototype.renderLoaderReact = function (onAssetJsLoaded) {
-        ReactDOM.render(React.createElement("div", null,
-            React.createElement(asset_css_file_1.default, { hrefCss: this.configMap.hrefCss }),
-            React.createElement("div", null, "Auth Loader 2"),
-            React.createElement(asset_js_file_1.default, { urlScript: this.configMap.urlScript, onAssetJsLoaded: onAssetJsLoaded })), this.$el[0]);
-    };
     return AuthLoader;
-}());
+}(module_loader_1.default));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AuthLoader;

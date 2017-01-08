@@ -1,3 +1,7 @@
+/**
+* Класс для динамической загрузки Js файлов
+*/
+
 import * as React from "react";
 
 declare const Promise:any;
@@ -20,12 +24,10 @@ class AssetJsFile extends React.Component<AssetJsProps, undefined> {
 
     componentDidMount() {
 
-        console.debug();
-
         const el:HTMLElement = this.refs.el;
         const {urlScript:url} = this.props;
 
-        this.promiseScriptLoad(el, url)
+        this.createPromiseScriptLoad(el, url)
             .then(
                 res => {
                     //console.debug('success Script Load');
@@ -35,11 +37,11 @@ class AssetJsFile extends React.Component<AssetJsProps, undefined> {
                     console.debug(err.message);
                 }
 
-            )
-        ;
+            );
+
    }
 
-   promiseScriptLoad(el: HTMLElement, url: string) {
+   createPromiseScriptLoad(el: HTMLElement, url: string) {
        //console.debug('promiseScriptLoad');
 
        return new Promise((resolve, reject) => {

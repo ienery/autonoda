@@ -5,100 +5,76 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-
-import AssetCssFile from '../../common/components/assets/asset-css-file';
-import AssetJsFile from '../../common/components/assets/asset-js-file';
-
+import ModuleLoader from '../../common/components/module-loader/module-loader';
 
 // global variable
 declare const Promise:any;
 
-export default class BlockLoader {
-    private $el: JQuery;
+export default class AuthLoader extends ModuleLoader {
 
-    private configMap: {
+    // родитель для блока
+    protected elParent: HTMLElement;
+
+    // корневой элемент блока
+    protected el: HTMLElement;
+
+    protected configMap: {
+        // общий класс элемента
+        classEl: string,
+
+        // класс элемента с "полезной" разметкой
+        classElContent: string,
+
+        // файл стилей блока
         hrefCss: string,
-        urlScript: string,
 
+        // файл скрипта блока
+        urlScript: string,
+        // библиотека/модуль внктри скрипта блока
         libraryName: string,
         moduleName: string
     };
 
     constructor() {
-        //console.debug('auth');
-        this.$el = $('.wrap-main-index');
+        super();
+
+        this.elParent = $('.wrap-main-index')[0];
 
         this.configMap = {
-            hrefCss :       '/css/blockStyle.css',
-            urlScript:      '/js/block.js',
+            classEl: 'main-index',
+            classElContent: 'blocks',
 
+            hrefCss :       '/css/blockStyle.css',
+
+            urlScript:      '/js/block.js',
             libraryName :   'block',
             moduleName:     'BlockModule'
         };
     }
 
-
-
+    /*
     processLoadPromise() {
-        return new Promise((resolve, reject) => {
-
-            // callback after loaded script module
-            const onAssetJsLoaded = () => {
-                const {libraryName, moduleName} = this.configMap;
-                resolve({
-                    libraryName,
-                    moduleName
-                });
-            };
-
-            this.renderLoaderReact(onAssetJsLoaded);
-        });
+        return super['processLoadPromise']();
     }
 
-    renderLoaderReact(onAssetJsLoaded) {
-
-        ReactDOM.render(
-            <div className="main-index">
-                <AssetCssFile
-                    hrefCss = {this.configMap.hrefCss}
-                />
-
-                <div className="blocks">
-                    <div className="block">
-                        block 1
-                    </div>
-
-                    <div className="block">
-                        block 2
-                    </div>
-
-                    <div className="block">
-                        block 3
-                    </div>
-
-                    <div className="block">
-                        block 4
-                    </div>
-
-                    <div className="block">
-                        block 5
-                    </div>
-
-                    <div className="block">
-                        block 6
-                    </div>
-                </div>
-
-                <AssetJsFile
-                    urlScript = {this.configMap.urlScript}
-                    onAssetJsLoaded = {onAssetJsLoaded}
-                />
-            </div>,
-            this.$el[0]
-        );
+    createElement() {
+        return super['createElement']();
     }
 
-    // onAssetJsLoaded() {
-    //     spa['auth'].fnAuth();
-    // }
+    processAddStylesPromise() {
+        return super['processAddStylesPromise']();
+    }
+
+    addStartHtml() {
+        return super['addStartHtml']();
+    }
+
+    processAddScriptPromise() {
+        return super['processAddScriptPromise']();
+    }
+
+    initScript() {
+        console.debug('initScript');
+    }
+    */
 }

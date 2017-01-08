@@ -1,44 +1,26 @@
 "use strict";
-var React = require("react");
-var ReactDOM = require("react-dom");
-var asset_css_file_1 = require("../../common/components/assets/asset-css-file");
-var asset_js_file_1 = require("../../common/components/assets/asset-js-file");
-var BlockLoader = (function () {
-    function BlockLoader() {
-        this.$el = $('.wrap-main-index');
-        this.configMap = {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var module_loader_1 = require("../../common/components/module-loader/module-loader");
+var AuthLoader = (function (_super) {
+    __extends(AuthLoader, _super);
+    function AuthLoader() {
+        var _this = _super.call(this) || this;
+        _this.elParent = $('.wrap-main-index')[0];
+        _this.configMap = {
+            classEl: 'main-index',
+            classElContent: 'blocks',
             hrefCss: '/css/blockStyle.css',
             urlScript: '/js/block.js',
             libraryName: 'block',
             moduleName: 'BlockModule'
         };
+        return _this;
     }
-    BlockLoader.prototype.processLoadPromise = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var onAssetJsLoaded = function () {
-                var _a = _this.configMap, libraryName = _a.libraryName, moduleName = _a.moduleName;
-                resolve({
-                    libraryName: libraryName,
-                    moduleName: moduleName
-                });
-            };
-            _this.renderLoaderReact(onAssetJsLoaded);
-        });
-    };
-    BlockLoader.prototype.renderLoaderReact = function (onAssetJsLoaded) {
-        ReactDOM.render(React.createElement("div", { className: "main-index" },
-            React.createElement(asset_css_file_1.default, { hrefCss: this.configMap.hrefCss }),
-            React.createElement("div", { className: "blocks" },
-                React.createElement("div", { className: "block" }, "block 1"),
-                React.createElement("div", { className: "block" }, "block 2"),
-                React.createElement("div", { className: "block" }, "block 3"),
-                React.createElement("div", { className: "block" }, "block 4"),
-                React.createElement("div", { className: "block" }, "block 5"),
-                React.createElement("div", { className: "block" }, "block 6")),
-            React.createElement(asset_js_file_1.default, { urlScript: this.configMap.urlScript, onAssetJsLoaded: onAssetJsLoaded })), this.$el[0]);
-    };
-    return BlockLoader;
-}());
+    return AuthLoader;
+}(module_loader_1.default));
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = BlockLoader;
+exports.default = AuthLoader;

@@ -6,7 +6,11 @@ import AuthLoader from '../auth/auth-loader';
 import BlockLoader from '../block/block-loader';
 
 declare const Promise:any;
+// root SPA variable
 declare const spa: any;
+
+// stub
+declare const document: any;
 
 export default class Shell  {
     private jqueryMap;
@@ -84,8 +88,9 @@ export default class Shell  {
                   const module = new spa[libraryName][moduleName];
                   module.initModule();
               }
-          });
 
+              this.testCss();
+          });
     }
 
 
@@ -93,6 +98,11 @@ export default class Shell  {
         // promise уже запускается и разрешается
         // внутри модуля при вызове getLoadPromise
         return loader.processLoadPromise();
+    }
+
+    testCss() {
+        // проверка возможностей css
+        //console.debug(document);
     }
 
 }

@@ -1,4 +1,4 @@
 # autonoda
 
 pet project 
-nodejs v7, ES6, babel, react
+nodejs, ES6, babel, react
